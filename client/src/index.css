@@ -1,0 +1,275 @@
+@import "tailwindcss";
+
+/* ============================================================
+   RAYVIA — Modern Editorial Web3 Platform
+   Authoritative Design System from DESIGN.md
+   ============================================================ */
+
+@theme {
+  /* Typography */
+  --font-display: "Manrope", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: "Geist Mono", "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  /* Surfaces (Warm Paper / Gallery Off-White) */
+  --color-surface: #fbf9f4; /* Warm Paper Canvas */
+  --color-surface-dim: #dbdad5;
+  --color-surface-bright: #ffffff;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f5f3ee;
+  --color-surface-container: #f0eee9;
+  --color-surface-container-high: #eae8e3;
+  --color-surface-container-highest: #e4e2dd;
+
+  /* Text & Contrast */
+  --color-ink: #1b1c19; /* On-surface deep ink */
+  --color-ink-soft: #46464c; /* On-surface variant */
+  --color-ink-faint: #76767d; /* Outline */
+  --color-outline-soft: #e4e2dd;
+  --color-line: #e4e2dd;
+
+  /* Structural & Primary */
+  --color-navy: #161b2b; /* Primary container / Deep space */
+  --color-navy-black: #0c0f18;
+  --color-primary: #161b2b;
+
+  /* Brand Accents */
+  --color-electric: #4648d4; /* Royal Indigo */
+  --color-electric-bright: #6063ee;
+  --color-secondary: #4648d4;
+  --color-secondary-container: #6063ee;
+  --color-purple: #7c3aed;
+  --color-blue: #4648d4;
+  --color-cyan: #0284c7;
+  --color-success: #16a34a;
+  --color-danger: #ba1a1a;
+
+  /* Shapes: Soft Editorial */
+  --radius-soft: 8px;
+  --radius-btn: 6px;
+  --radius-cards: 12px;
+
+  /* Elevation */
+  --shadow-card: 0 1px 3px rgba(27, 28, 25, 0.04), 0 4px 12px rgba(27, 28, 25, 0.02);
+  --shadow-float: 0 16px 40px rgba(22, 27, 43, 0.08), 0 4px 12px rgba(22, 27, 43, 0.03);
+}
+
+/* ---------- Base ---------- */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background-color: var(--color-surface);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  letter-spacing: -0.025em;
+  color: var(--color-ink);
+}
+
+code, kbd, samp, .mono {
+  font-family: var(--font-mono);
+}
+
+::selection {
+  background: var(--color-navy);
+  color: var(--color-surface-bright);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-surface);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-surface-container-highest);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-ink-faint);
+}
+
+/* ---------- Layout helpers ---------- */
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-[80rem] px-6 md:px-10;
+  }
+
+  .section-pad {
+    @apply py-16 md:py-24;
+  }
+
+  .label-caps {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .copy-display {
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 1.05;
+  }
+
+  /* ---------- Buttons ---------- */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-btn);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    line-height: 1;
+    cursor: pointer;
+    user-select: none;
+    border: 1px solid transparent;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .btn:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  .btn-primary {
+    background-color: var(--color-navy);
+    color: var(--color-surface-bright);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+  }
+  .btn-primary:hover {
+    background-color: #000000;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  }
+  .btn-electric {
+    background-color: var(--color-electric);
+    color: #ffffff;
+    box-shadow: 0 1px 2px rgba(70, 72, 212, 0.15);
+  }
+  .btn-electric:hover {
+    background-color: #383abb;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(70, 72, 212, 0.25);
+  }
+  .btn-outline {
+    border-color: var(--color-outline-soft);
+    color: var(--color-ink);
+    background-color: var(--color-surface-bright);
+  }
+  .btn-outline:hover {
+    border-color: var(--color-ink-soft);
+    background-color: var(--color-surface-container-low);
+  }
+  .btn-ghost-dark {
+    border-color: rgba(255, 255, 255, 0.15);
+    background-color: rgba(255, 255, 255, 0.05);
+    color: var(--color-surface-bright);
+  }
+  .btn-ghost-dark:hover {
+    border-color: rgba(255, 255, 255, 0.3);
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  .btn-sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
+  }
+  .btn-lg {
+    padding: 0.875rem 1.875rem;
+    font-size: 0.875rem;
+  }
+
+  /* ---------- Cards & containers ---------- */
+  .card {
+    @apply rounded-cards border border-outline-soft bg-surface-bright transition-all duration-300;
+  }
+  .card-hover {
+    @apply hover:border-ink/20 hover:shadow-card;
+  }
+  .glass {
+    background: rgba(251, 249, 244, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  /* ---------- Form fields ---------- */
+  .field {
+    @apply w-full border-b border-outline-soft bg-transparent py-3 font-sans text-base text-ink outline-none transition-colors duration-200 placeholder:text-ink-faint/60;
+  }
+  .field:focus {
+    border-color: var(--color-electric);
+    border-bottom-width: 2px;
+  }
+  .field-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-ink-soft);
+  }
+
+  /* ---------- Chips / tags ---------- */
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full bg-navy px-3 py-1 text-xs font-semibold tracking-wide text-surface-bright;
+  }
+  .chip-soft {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-outline-soft bg-surface-container px-3 py-1 text-xs font-medium text-ink-soft;
+  }
+
+  /* ---------- Progress ---------- */
+  .progress-track {
+    @apply relative h-1.5 w-full overflow-hidden rounded-full bg-surface-container-high;
+  }
+  .progress-fill {
+    height: 100%;
+    border-radius: 9999px;
+    background: linear-gradient(90deg, #4648d4 0%, #6063ee 50%, #0284c7 100%);
+    transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* ---------- Dark band (Inverse / Deep Space Surface) ---------- */
+  .band-dark {
+    background-color: var(--color-navy);
+    color: var(--color-surface-bright);
+  }
+  .band-dark-muted {
+    background-color: #0c0f18;
+  }
+}
+
+/* ---------- Motion ---------- */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.anim-marquee { animation: marquee 40s linear infinite; }
+
+[data-reveal] {
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  html { scroll-behavior: auto; }
+}

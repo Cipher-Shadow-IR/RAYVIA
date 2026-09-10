@@ -1,0 +1,21 @@
+# dependencies
+node_modules/
+client/node_modules/
+.pnp
+.pnp.js
+
+# Hardhat
+artifacts/
+cache/
+
+# production
+build/
+dist/
+client/dist/
+
+# misc
+.DS_Store
+.env
+.env.local
+*.backup
+*.log
