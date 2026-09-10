@@ -9,6 +9,11 @@ export default function PageFade({ children }) {
     const el = ref.current;
     if (!el) return undefined;
     const ctx = gsap.context(() => {
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduced) {
+        gsap.set(el, { opacity: 1, y: 0 });
+        return;
+      }
       gsap.from(el, { opacity: 0, y: 18, duration: 0.55, ease: "power2.out" });
     }, ref);
     return () => ctx.revert();

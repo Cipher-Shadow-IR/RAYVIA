@@ -6,6 +6,7 @@ import {
   useMemo,
   useState,
 } from "react";
+import { ethers } from "ethers";
 import {
   getFallbackProvider,
   getWalletProvider,
@@ -18,13 +19,26 @@ const Web3Context = createContext(null);
 export function Web3Provider({ children }) {
   const [account, setAccount] = useState(null);
   const [chainId, setChainId] = useState(null);
+  const [balance, setBalance] = useState("0");
   const [provider, setProvider] = useState(getFallbackProvider);
   const [isConnecting, setIsConnecting] = useState(false);
   const [error, setError] = useState(null);
 
+  const fetchBalance = useCallback(async (addr, prov) => {
+    if (!addr || !prov) return;
+    try {
+      const balWei = await prov.getBalance(addr);
+      const formatted = parseFloat(ethers.utils.formatEther(balWei)).toFixed(3);
+      setBalance(formatted);
+    } catch (e) {
+      console.error("Failed to fetch balance:", e);
+    }
+  }, []);
+
   const resetToReadOnly = useCallback(() => {
     setAccount(null);
     setChainId(null);
+    setBalance("0");
     setProvider(getFallbackProvider());
   }, []);
 
@@ -32,16 +46,22 @@ export function Web3Provider({ children }) {
     const ethereum = window.ethereum;
     if (!ethereum) return undefined;
 
-    const handleAccountsChanged = (accounts) => {
+    const handleAccountsChanged = async (accounts) => {
       if (!accounts || accounts.length === 0) {
         resetToReadOnly();
         return;
       }
       setAccount(accounts[0]);
+      const wp = getWalletProvider();
+      if (wp) {
+        setProvider(wp);
+        fetchBalance(accounts[0], wp);
+      }
     };
 
     const handleChainChanged = (hexChainId) => {
       setChainId(parseInt(hexChainId, 16));
+      window.location.reload();
     };
 
     const handleDisconnect = () => resetToReadOnly();
@@ -55,7 +75,7 @@ export function Web3Provider({ children }) {
       ethereum.removeListener("chainChanged", handleChainChanged);
       ethereum.removeListener("disconnect", handleDisconnect);
     };
-  }, [resetToReadOnly]);
+  }, [resetToReadOnly, fetchBalance]);
 
   const connect = useCallback(async () => {
     const ethereum = window.ethereum;
@@ -72,6 +92,7 @@ export function Web3Provider({ children }) {
       setProvider(walletProvider);
       setAccount(accounts[0]);
       setChainId(network.chainId);
+      await fetchBalance(accounts[0], walletProvider);
     } catch (err) {
       if (err && err.code === 4001) {
         setError("Connection request was rejected.");
@@ -81,7 +102,7 @@ export function Web3Provider({ children }) {
     } finally {
       setIsConnecting(false);
     }
-  }, []);
+  }, [fetchBalance]);
 
   const disconnect = useCallback(() => {
     resetToReadOnly();
@@ -96,6 +117,7 @@ export function Web3Provider({ children }) {
   const value = useMemo(
     () => ({
       account,
+      balance,
       chainId,
       provider,
       signer,
@@ -107,7 +129,7 @@ export function Web3Provider({ children }) {
       isConnected: Boolean(account),
       networkLabel: chainLabel(chainId ?? CHAIN_ID),
     }),
-    [account, chainId, provider, signer, error, connect, disconnect, isConnecting]
+    [account, balance, chainId, provider, signer, error, connect, disconnect, isConnecting]
   );
 
   return <Web3Context.Provider value={value}>{children}</Web3Context.Provider>;

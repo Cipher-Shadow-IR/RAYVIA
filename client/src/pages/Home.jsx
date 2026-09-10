@@ -1,7 +1,19 @@
 import { useLayoutEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { 
+  Sparkles, 
+  ArrowRight, 
+  ShieldCheck, 
+  Lock, 
+  Zap, 
+  Coins, 
+  Clock, 
+  Users, 
+  Layers, 
+  ExternalLink 
+} from "lucide-react";
 import { useProjects } from "../hooks/useProjects";
 import ProjectCard from "../components/ProjectCard";
 import Reveal from "../components/Reveal";
@@ -15,11 +27,11 @@ gsap.registerPlugin(ScrollTrigger);
 
 const MARQUEE_ITEMS = [
   ...CATEGORIES.map((c) => c.label.toUpperCase()),
-  "IMMUTABLE CONTRACTS",
-  "TRUSTLESS REFUNDS",
+  "IMMUTABLE SMART CONTRACTS",
+  "TRUSTLESS ON-CHAIN REFUNDS",
   "ZERO CUSTODIAL RISK",
-  "DECENTRALIZED IPFS",
-  "OPEN TO EVERY CREATOR",
+  "DECENTRALIZED IPFS PERSISTENCE",
+  "DIRECT PAYABLE SETTLEMENT",
 ];
 
 function Hero({ featuredProject, loading }) {
@@ -30,16 +42,30 @@ function Hero({ featuredProject, loading }) {
       const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       if (reduced) return undefined;
 
+      // Editorial masked line reveal for the headline
+      gsap.fromTo(
+        "[data-hero-line]",
+        { yPercent: 110, opacity: 0 },
+        {
+          yPercent: 0,
+          opacity: 1,
+          duration: 0.9,
+          stagger: 0.12,
+          ease: "power4.out",
+        }
+      );
+
+      // Chips, description, CTAs, script strip stagger in with a soft rise
       gsap.fromTo(
         "[data-hero-chunk]",
-        { opacity: 0, y: 24 },
-        { opacity: 1, y: 0, duration: 0.8, stagger: 0.1, ease: "power3.out" }
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.7, stagger: 0.08, delay: 0.55, ease: "power3.out" }
       );
 
       gsap.fromTo(
         "[data-hero-card]",
-        { opacity: 0, y: 32 },
-        { opacity: 1, y: 0, duration: 1, delay: 0.2, ease: "power3.out" }
+        { opacity: 0, y: 24 },
+        { opacity: 1, y: 0, duration: 0.9, delay: 0.4, ease: "power3.out" }
       );
     }, ref);
 
@@ -47,149 +73,166 @@ function Hero({ featuredProject, loading }) {
   }, []);
 
   return (
-    <section ref={ref} className="relative overflow-hidden bg-surface border-b border-outline-soft">
-      <div className="container-page relative grid items-center gap-12 pt-16 pb-24 lg:grid-cols-12 lg:gap-16 lg:pt-24 lg:pb-32">
-        {/* Left Column: Editorial Headline & Copy */}
-        <div className="space-y-8 lg:col-span-7">
-          <div data-hero-chunk className="label-caps text-ink-faint flex flex-wrap items-center gap-2">
-            <span className="text-electric">●</span>
-            <span>ON-CHAIN CROWDFUNDING</span>
-            <span>·</span>
-            <span>ETHEREUM</span>
-            <span>·</span>
-            <span>DIRECT PROTOCOL</span>
-          </div>
+    <section ref={ref} className="relative overflow-hidden border-b border-white/[0.06] py-16 sm:py-20 lg:py-24">
+      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+        
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+          
+          {/* Left Column: Kinetic Editorial Copy */}
+          <div className="space-y-6 lg:col-span-7 text-left">
+            
+            {/* Protocol Status Badge (Amber #FBBF24) */}
+            <div data-hero-chunk className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#FBBF24]/10 border border-[#FBBF24]/20 text-xs font-mono text-[#FBBF24]">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#FBBF24] animate-pulse" />
+              <span>RAYVIA PROTOCOL • ZERO CUSTODY ESCROW</span>
+            </div>
 
-          <h1 data-hero-chunk className="copy-display text-[clamp(2.75rem,5.5vw,5rem)] text-ink uppercase">
-            Back the
-            <br />
-            ideas worth
-            <br />
-            <span className="text-electric">building.</span>
-          </h1>
-
-          <p data-hero-chunk className="max-w-xl text-lg leading-relaxed text-ink-soft font-sans">
-            RAYVIA is an editorial, security-hardened Web3 crowdfunding platform. Launch projects with transparent milestones, automated refund guarantees, and immutable smart contract settlement.
-          </p>
-
-          <div data-hero-chunk className="flex flex-wrap items-center gap-4 pt-2">
-            <Link to="/discover" className="btn-primary btn-lg font-bold tracking-wider uppercase">
-              Explore Projects
-            </Link>
-            <Link to="/start-project" className="btn-outline btn-lg font-bold tracking-wider uppercase">
-              Start a Project
-            </Link>
-          </div>
-
-          <div data-hero-chunk className="flex flex-wrap items-center gap-6 pt-4 border-t border-outline-soft text-xs text-ink-faint font-mono">
-            <span className="flex items-center gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-success" />
-              NON-CUSTODIAL VAULTS
-            </span>
-            <span className="flex items-center gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-electric" />
-              OPENZEPPELIN HARDFORK READY
-            </span>
-            <span className="flex items-center gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-ink-faint" />
-              IPFS PERSISTED
-            </span>
-          </div>
-        </div>
-
-        {/* Right Column: Authentic Editorial Featured Card or Protocol Spotlight */}
-        <div data-hero-card className="lg:col-span-5">
-          {featuredProject ? (
-            <Link
-              to={`/project/${featuredProject.id}`}
-              className="group block card overflow-hidden p-6 hover:shadow-float transition-all duration-300 bg-surface-bright border border-outline-soft"
-            >
-              <div className="flex items-center justify-between pb-4 border-b border-outline-soft">
-                <span className="chip-soft text-[10px] font-bold uppercase">
-                  {featuredProject.expired ? "Ended" : "Live Campaign"}
+{/* Disciplined Scale Headline */}
+            <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white light:text-[#0f172a] leading-[1.06]">
+              <span className="block overflow-hidden">
+                <span data-hero-line className="block" style={{ willChange: "transform" }}>
+                  Back the ideas
                 </span>
-                <span className="label-caps text-ink-faint text-[10px]">
-                  {categoryLabel(featuredProject.category)}
+              </span>
+              <span className="block overflow-hidden">
+                <span data-hero-line className="block text-[#3B82F6]" style={{ willChange: "transform" }}>
+                  worth building.
                 </span>
-              </div>
+              </span>
+            </h1>
 
-              <div className="relative mt-5 aspect-video overflow-hidden rounded-md bg-surface-container-high">
-                {featuredProject.cid ? (
-                  <img
-                    src={ipfsUrl(featuredProject.cid)}
-                    alt={featuredProject.name}
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                ) : (
-                  <div className="flex h-full items-center justify-center p-6 text-center font-mono text-sm text-ink-soft">
-                    RAYVIA ARCHIVE // CAMPAIGN #{featuredProject.id}
-                  </div>
-                )}
-              </div>
+            <p data-hero-chunk className="max-w-xl text-base sm:text-lg leading-relaxed text-[#94A3B8] font-normal">
+              Autonomous, security-hardened Web3 crowdfunding platform on Ethereum. Launch creative and technical projects with transparent milestones, automated refund protections, and zero middleman fees.
+            </p>
 
-              <div className="mt-5 space-y-2">
-                <h3 className="font-display text-xl font-bold text-ink uppercase group-hover:text-electric transition-colors line-clamp-1">
-                  {featuredProject.name}
-                </h3>
-                <p className="text-xs text-ink-soft line-clamp-2 leading-relaxed">
-                  {featuredProject.description}
-                </p>
-              </div>
-
-              <div className="mt-6 pt-4 border-t border-outline-soft space-y-3">
-                <ProgressBar percent={featuredProject.percent} />
-                <div className="flex items-baseline justify-between font-mono text-xs">
-                  <div>
-                    <span className="font-bold text-sm text-ink">{fmtEth(featuredProject.raised)}</span>
-                    <span className="text-ink-faint font-sans text-[11px]"> of {fmtEth(featuredProject.goal)}</span>
-                  </div>
-                  <span className="font-bold text-electric">{Math.min(100, Math.floor(featuredProject.percent || 0))}%</span>
-                </div>
-                <div className="flex justify-between items-center text-[10px] text-ink-faint font-sans uppercase tracking-wider">
-                  <span>{featuredProject.totalContributors || (featuredProject.contributors || []).length} Backers</span>
-                  <span className="font-mono text-ink-soft">
-                    {featuredProject.expired ? "Closed" : timeLeftLabel(featuredProject.secondsLeft)}
-                  </span>
-                </div>
-              </div>
-            </Link>
-          ) : (
-            <div className="card p-8 bg-surface-bright border border-outline-soft shadow-sm space-y-6">
-              <div className="flex items-center justify-between pb-4 border-b border-outline-soft">
-                <span className="chip text-[10px] font-bold uppercase">Protocol Standby</span>
-                <span className="label-caps text-ink-faint text-[10px]">SMART CONTRACT</span>
-              </div>
-
-              <div className="space-y-3">
-                <h3 className="font-display text-2xl font-bold text-ink uppercase">
-                  Launch the first on-chain campaign.
-                </h3>
-                <p className="text-sm text-ink-soft leading-relaxed">
-                  The protocol is deployed and ready on Ethereum. Connect your MetaMask wallet, specify your funding goal and timeline, and publish your project without intermediaries.
-                </p>
-              </div>
-
-              <div className="rounded-md border border-outline-soft bg-surface-container-low p-4 space-y-2 font-mono text-xs text-ink-soft">
-                <div className="flex justify-between">
-                  <span className="text-ink-faint">Smart Contract:</span>
-                  <span className="text-ink font-semibold">crowdfunding.sol</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-ink-faint">Security Layer:</span>
-                  <span className="text-success font-semibold">ReentrancyGuard Active</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-ink-faint">Refund Settlement:</span>
-                  <span className="text-electric font-semibold">Autonomous On-Chain</span>
-                </div>
-              </div>
-
-              <Link to="/start-project" className="btn-electric w-full py-3.5 font-bold uppercase tracking-wider text-xs text-center">
-                Launch a Campaign
+            {/* Action Buttons (Sapphire #3B82F6 primary) */}
+            <div data-hero-chunk className="flex flex-wrap items-center gap-3 pt-2">
+              <Link to="/discover" className="btn-sheen inline-flex items-center gap-2 px-6 py-3 rounded-lg text-xs font-semibold text-white bg-[#3B82F6] hover:bg-[#2563EB] transition-all shadow-md shadow-blue-500/20 active:scale-95">
+                <span>Explore Projects</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link to="/start-project" className="inline-flex items-center gap-2 px-6 py-3 rounded-lg text-xs font-semibold text-slate-200 bg-[#161B26] hover:bg-[#1C2331] border border-white/[0.08] hover:border-white/[0.16] transition-all active:scale-95">
+                <span>Deploy Campaign</span>
               </Link>
             </div>
-          )}
+
+            {/* Technical Verification Strip */}
+            <div data-hero-chunk className="flex flex-wrap items-center gap-6 pt-4 border-t border-white/[0.06] text-xs font-mono text-[#94A3B8]">
+              <span className="flex items-center gap-2">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#34D399]" />
+                Non-Custodial Vaults
+              </span>
+              <span className="flex items-center gap-2">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#3B82F6]" />
+                ReentrancyGuard Hardened
+              </span>
+              <span className="flex items-center gap-2">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#FBBF24]" />
+                IPFS Decentralized Storage
+              </span>
+            </div>
+
+          </div>
+
+          {/* Right Column: Featured Spotlight Card */}
+          <div data-hero-card className="lg:col-span-5 w-full">
+            {featuredProject ? (
+              <Link
+                to={`/project/${featuredProject.id}`}
+                className="group block rounded-xl overflow-hidden p-6 hover:shadow-2xl transition-all duration-300 bg-[#161B26] border border-white/[0.08] hover:border-white/[0.18]"
+              >
+                <div className="flex items-center justify-between pb-3 border-b border-white/[0.06]">
+                  <span className="px-2.5 py-0.5 rounded text-[11px] font-mono font-semibold bg-[#FBBF24]/10 border border-[#FBBF24]/20 text-[#FBBF24]">
+                    {featuredProject.expired ? "Ended" : "Featured Spotlight"}
+                  </span>
+                  <span className="font-mono text-[11px] text-[#94A3B8] uppercase">
+                    {categoryLabel(featuredProject.category)}
+                  </span>
+                </div>
+
+                <div className="relative mt-4 aspect-video overflow-hidden rounded-lg bg-[#0A0D14]">
+                  {featuredProject.cid ? (
+                    <img
+                      src={ipfsUrl(featuredProject.cid)}
+                      alt={featuredProject.name}
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  ) : (
+                    <div className="flex h-full items-center justify-center p-6 text-center font-mono text-xs text-[#94A3B8]">
+                      RAYVIA ARCHIVE // CAMPAIGN #{featuredProject.id}
+                    </div>
+                  )}
+                </div>
+
+                <div className="mt-4 space-y-1.5">
+                  <h3 className="font-display text-lg font-bold text-white group-hover:text-[#3B82F6] transition-colors line-clamp-1">
+                    {featuredProject.name}
+                  </h3>
+                  <p className="text-xs text-[#94A3B8] line-clamp-2 leading-relaxed">
+                    {featuredProject.description}
+                  </p>
+                </div>
+
+                <div className="mt-5 pt-3 border-t border-white/[0.06] space-y-2.5">
+                  <ProgressBar percent={featuredProject.percent} />
+                  
+                  <div className="flex items-baseline justify-between font-mono text-xs">
+                    <div>
+                      <span className="font-bold text-white text-sm">{fmtEth(featuredProject.raised)}</span>
+                      <span className="text-[#94A3B8] text-[11px]"> of {fmtEth(featuredProject.goal)} ETH</span>
+                    </div>
+                    <span className="font-bold text-[#34D399]">{Math.min(100, Math.floor(featuredProject.percent || 0))}%</span>
+                  </div>
+
+                  <div className="flex justify-between items-center text-[11px] text-[#94A3B8] font-mono">
+                    <span>{featuredProject.totalContributors || (featuredProject.contributors || []).length} Backers</span>
+                    <span>{featuredProject.expired ? "Closed" : timeLeftLabel(featuredProject.secondsLeft)}</span>
+                  </div>
+                </div>
+              </Link>
+            ) : (
+              <div className="rounded-xl p-7 bg-[#161B26] border border-white/[0.08] shadow-card space-y-5">
+                <div className="flex items-center justify-between pb-3 border-b border-white/[0.06]">
+                  <span className="px-2.5 py-0.5 rounded text-[11px] font-mono font-semibold bg-[#3B82F6]/10 border border-[#3B82F6]/30 text-[#3B82F6]">
+                    Protocol Standby
+                  </span>
+                  <span className="font-mono text-[11px] text-[#94A3B8]">SMART CONTRACT</span>
+                </div>
+
+                <div className="space-y-2">
+                  <h3 className="font-display text-xl font-bold text-white">
+                    Deploy the next on-chain campaign.
+                  </h3>
+                  <p className="text-xs text-[#94A3B8] leading-relaxed">
+                    The smart contract registry is active on Ethereum. Connect your MetaMask wallet, set your funding milestone, and deploy your project with automated escrow security.
+                  </p>
+                </div>
+
+                <div className="rounded-lg border border-white/[0.06] bg-[#0F131C] p-3.5 space-y-2 font-mono text-xs text-[#94A3B8]">
+                  <div className="flex justify-between">
+                    <span>Contract File:</span>
+                    <span className="text-white font-medium">crowdfunding.sol</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Security Layer:</span>
+                    <span className="text-[#34D399] font-medium">ReentrancyGuard Active</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Refund Guarantee:</span>
+                    <span className="text-[#3B82F6] font-medium">Autonomous On-Chain</span>
+                  </div>
+                </div>
+
+                <Link to="/start-project" className="btn-sheen inline-flex items-center justify-center gap-2 w-full py-2.5 rounded-lg text-xs font-semibold text-white bg-[#3B82F6] hover:bg-[#2563EB] transition-all shadow-md shadow-blue-500/20">
+                  <span>Launch a Campaign</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
+            )}
+          </div>
+
         </div>
+
       </div>
     </section>
   );
@@ -197,12 +240,12 @@ function Hero({ featuredProject, loading }) {
 
 function Marquee() {
   return (
-    <div className="band-dark overflow-hidden border-y border-surface-bright/10 py-4" aria-hidden="true">
+    <div className="overflow-hidden border-y border-white/[0.06] bg-[#080B10] py-3.5" aria-hidden="true">
       <div className="flex w-max items-center gap-8 anim-marquee">
         {[...MARQUEE_ITEMS, ...MARQUEE_ITEMS].map((item, i) => (
-          <span key={i} className="label-caps flex items-center gap-8 text-surface-bright/70 text-xs">
+          <span key={i} className="font-mono flex items-center gap-8 text-[#94A3B8] text-xs">
             {item}
-            <span className="text-electric-bright">✦</span>
+            <span className="text-[#3B82F6]">✦</span>
           </span>
         ))}
       </div>
@@ -218,187 +261,182 @@ function Stats({ projects }) {
   );
 
   const stats = [
-    { label: "Active & Funded Campaigns", value: projects.length, suffix: "" },
+    { label: "Active Campaigns", value: projects.length, suffix: "" },
     { label: "Total Ether Committed", value: totalRaised, decimals: 2, suffix: " ETH" },
-    { label: "Unique On-Chain Backers", value: totalBackers, suffix: "" },
-    { label: "Protocol Settlement Guarantee", value: 100, suffix: "% On-Chain" },
+    { label: "On-Chain Backers", value: totalBackers, suffix: "" },
+    { label: "Settlement Guarantee", value: 100, suffix: "% Direct" },
   ];
 
   return (
-    <section className="container-page py-16 md:py-20">
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+    <section className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {stats.map((s, i) => (
-          <Reveal key={s.label} delay={i * 0.06} className="card p-6 border border-outline-soft">
-            <div className="label-caps text-ink-faint text-[10px]">{s.label}</div>
+          <div key={s.label} className="rounded-xl p-5 border border-white/[0.08] bg-[#161B26] space-y-1">
+            <div className="font-mono text-[11px] uppercase tracking-wider text-[#94A3B8]">{s.label}</div>
             <CountUp
               value={s.value}
               decimals={s.decimals || 0}
               suffix={s.suffix || ""}
-              className="mt-3 font-display text-3xl font-extrabold tracking-tight text-ink"
+              className="font-mono text-2xl font-bold tracking-tight text-white block mt-1"
             />
-          </Reveal>
+          </div>
         ))}
       </div>
     </section>
   );
 }
 
-function Featured({ projects, loading }) {
-  const featured = projects.slice(0, 3);
-  return (
-    <section className="container-page pb-20 md:pb-28">
-      <SectionHeading
-        eyebrow="Curated Campaigns"
-        title="Featured on Rayvia"
-        description="Explore live campaigns anchored directly to our hardened Ethereum smart contract."
-        action={
-          <Link to="/discover" className="btn-outline font-bold text-xs uppercase tracking-wider">
-            View All Campaigns →
-          </Link>
-        }
-      />
-      {loading ? (
-        <ProjectCardSkeleton count={3} />
-      ) : featured.length === 0 ? (
-        <Reveal className="flex flex-col items-center gap-6 py-20 px-8 text-center border border-dashed border-outline-soft rounded-lg bg-surface-container-low/50">
-          <span className="label-caps text-ink-faint text-xs">NO ACTIVE CAMPAIGNS</span>
-          <p className="max-w-md text-base text-ink-soft font-sans">
-            Be the first creator to launch a decentralized campaign on this network.
-          </p>
-          <Link to="/start-project" className="btn-primary btn-md uppercase font-bold text-xs">
-            Start a Project
-          </Link>
-        </Reveal>
-      ) : (
-        <div className="grid gap-8 lg:grid-cols-3">
-          {featured.length === 1 ? (
-            <div className="lg:col-span-3">
-              <Reveal delay={0} y={20} className="h-full">
-                <ProjectCard project={featured[0]} index={0} isLarge={true} />
-              </Reveal>
-            </div>
-          ) : featured.length === 2 ? (
-            <>
-              <div className="lg:col-span-2">
-                <Reveal delay={0} y={20} className="h-full">
-                  <ProjectCard project={featured[0]} index={0} isLarge={true} />
-                </Reveal>
-              </div>
-              <div>
-                <Reveal delay={0.08} y={20} className="h-full">
-                  <ProjectCard project={featured[1]} index={1} />
-                </Reveal>
-              </div>
-            </>
-          ) : (
-            <>
-              <div className="lg:col-span-2">
-                <Reveal delay={0} y={20} className="h-full">
-                  <ProjectCard project={featured[0]} index={0} isLarge={true} />
-                </Reveal>
-              </div>
-              <div className="grid gap-6">
-                {featured.slice(1, 3).map((p, i) => (
-                  <Reveal key={p.id} delay={(i + 1) * 0.08} y={20} className="h-full">
-                    <ProjectCard project={p} index={i + 1} />
-                  </Reveal>
-                ))}
-              </div>
-            </>
-          )}
-        </div>
-      )}
-    </section>
-  );
-}
-
-function HowItWorks() {
+function ProtocolArchitecture() {
   const steps = [
     {
-      n: "01",
-      title: "Deploy Parameters",
-      body: "Publish your campaign to the Ethereum blockchain — defining funding target, deadline, category, and immutable refund guarantee.",
+      num: "01",
+      icon: Zap,
+      title: "Decentralized Project Deployment",
+      desc: "Creators configure funding milestones, duration timestamps, and IPFS metadata without platform gatekeepers."
     },
     {
-      n: "02",
-      title: "Direct ETH Backing",
-      body: "Supporters back your vision directly in ETH via MetaMask. Every contribution is logged in transparent on-chain mappings.",
+      num: "02",
+      icon: Lock,
+      title: "Non-Custodial Escrow Vaults",
+      desc: "Incoming contributions are locked securely inside the verified smart contract. No middleman holds your funds."
     },
     {
-      n: "03",
-      title: "Autonomous Settlement",
-      body: "If the target is met, creators claim raised capital. If a refundable goal falls short, contributors trigger automatic refunds.",
-    },
+      num: "03",
+      icon: ShieldCheck,
+      title: "Autonomous Settlement & Refunds",
+      desc: "If the target is met by the deadline, funds release directly to the creator. If missed, backers claim instant automated refunds."
+    }
   ];
+
   return (
-    <section className="band-dark py-20 md:py-28 border-y border-surface-bright/10">
-      <div className="container-page">
-        <div className="label-caps text-electric-bright">ARCHITECTURE & WORKFLOW</div>
-        <h2 className="mt-4 max-w-2xl text-3xl font-extrabold tracking-tight md:text-4xl font-display uppercase">
-          From proposal to payout, strictly on-chain.
-        </h2>
-        <div className="mt-14 grid gap-6 md:grid-cols-3">
-          {steps.map((s, i) => (
-            <Reveal key={s.n} delay={i * 0.1} className="rounded-lg border border-surface-bright/10 bg-surface-bright/5 p-8 backdrop-blur-sm">
-              <div className="font-mono text-3xl font-bold text-electric-bright">{s.n}</div>
-              <h3 className="mt-4 text-lg font-bold font-display uppercase text-surface-bright">{s.title}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-surface-bright/65 font-sans">{s.body}</p>
-            </Reveal>
-          ))}
+    <section className="border-t border-white/[0.06] bg-[#07090E] py-20">
+      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 space-y-12">
+        <div className="max-w-2xl mx-auto text-center space-y-3">
+          <span className="font-mono text-xs uppercase tracking-wider text-[#3B82F6] font-semibold">
+            Protocol Mechanics
+          </span>
+          <h2 className="font-display text-3xl sm:text-4xl font-bold text-white tracking-tight">
+            How Rayvia executes on Ethereum.
+          </h2>
+          <p className="text-xs sm:text-sm text-[#94A3B8] leading-relaxed">
+            Engineered with OpenZeppelin security contracts. Transparent code, immutable guarantees.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {steps.map((step) => {
+            const Icon = step.icon;
+            return (
+              <div
+                key={step.num}
+                className="rounded-xl border border-white/[0.08] bg-[#161B26] p-6 space-y-4 hover:border-white/[0.16] transition-all"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="font-mono text-xs font-bold text-[#3B82F6]">{step.num}</span>
+                  <div className="w-8 h-8 rounded-lg bg-[#3B82F6]/10 border border-[#3B82F6]/20 flex items-center justify-center text-[#3B82F6]">
+                    <Icon className="w-4 h-4" />
+                  </div>
+                </div>
+                <h3 className="font-display text-base font-bold text-white">
+                  {step.title}
+                </h3>
+                <p className="text-xs text-[#94A3B8] leading-relaxed">
+                  {step.desc}
+                </p>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
   );
 }
 
-function FinalCta() {
+export default function Home() {
+  const { projects, loading } = useProjects();
+  const featured = projects.length > 0
+    ? [...projects].sort((a, b) => (b.raised || 0) - (a.raised || 0))[0]
+    : null;
+
   return (
-    <section className="container-page py-20 md:py-28">
-      <Reveal className="relative overflow-hidden rounded-cards band-dark p-10 text-center md:p-16 border border-surface-bright/10">
-        <div className="relative">
-          <div className="label-caps text-surface-bright/50">COMMENCE BUILDING</div>
-          <h2 className="mx-auto mt-4 max-w-2xl text-3xl font-extrabold tracking-tight md:text-4xl font-display uppercase">
-            Have a project worth funding? Deploy it to Ethereum.
-          </h2>
-          <p className="mx-auto mt-4 max-w-xl text-surface-bright/65 text-sm font-sans leading-relaxed">
-            Zero intermediary commissions, no arbitrary censorship, and guaranteed protocol-level execution.
-          </p>
-          <div className="mt-8 flex flex-wrap justify-center gap-4">
-            <Link to="/start-project" className="btn-electric btn-lg font-bold uppercase tracking-wider text-xs">
-              Start a Project
+    <div className="space-y-0">
+      <Hero featuredProject={featured} loading={loading} />
+      <Marquee />
+      <Stats projects={projects} />
+
+      {/* Featured Projects Grid Section */}
+      <section className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-16 border-t border-white/[0.06] space-y-8">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <div className="space-y-1">
+            <span className="font-mono text-xs uppercase tracking-wider text-[#3B82F6] font-semibold">
+              Live Campaigns
+            </span>
+            <h2 className="font-display text-2xl sm:text-3xl font-bold text-white tracking-tight">
+              Featured on Rayvia
+            </h2>
+          </div>
+
+          <Link
+            to="/discover"
+            className="inline-flex items-center gap-1.5 text-xs font-mono text-[#3B82F6] hover:underline"
+          >
+            <span>View All Campaigns</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+        </div>
+
+        {loading ? (
+          <ProjectCardSkeleton count={3} />
+        ) : projects.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {projects.slice(0, 6).map((project, idx) => (
+              <ProjectCard key={project.id ?? idx} project={project} index={idx} />
+            ))}
+          </div>
+        ) : (
+          <div className="rounded-xl border border-dashed border-white/[0.08] bg-[#161B26] p-12 text-center space-y-4 max-w-md mx-auto">
+            <p className="font-mono text-xs text-[#94A3B8]">No active campaigns found in the smart contract registry.</p>
+            <Link
+              to="/start-project"
+              className="btn-sheen inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-xs font-semibold text-white bg-[#3B82F6] hover:bg-[#2563EB] transition-all"
+            >
+              <span>Launch First Campaign</span>
             </Link>
-            <Link to="/discover" className="btn-ghost-dark btn-lg font-bold uppercase tracking-wider text-xs">
-              Explore Archive
+          </div>
+        )}
+      </section>
+
+      <ProtocolArchitecture />
+
+      {/* Bottom CTA Banner */}
+      <section className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-20">
+        <div className="relative rounded-2xl overflow-hidden border border-white/[0.08] bg-[#161B26] p-8 sm:p-14 text-center space-y-6 shadow-2xl">
+          <div className="max-w-2xl mx-auto space-y-3">
+            <h2 className="font-display text-3xl sm:text-4xl font-bold text-white tracking-tight">
+              Ready to bring your vision to life?
+            </h2>
+            <p className="text-xs sm:text-sm text-[#94A3B8] leading-relaxed">
+              Deploy your project on-chain in under 3 minutes. Zero platform deductions, instant global funding.
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+            <Link
+              to="/start-project"
+              className="btn-sheen inline-flex items-center gap-2 px-6 py-3 rounded-lg text-xs font-semibold text-white bg-[#3B82F6] hover:bg-[#2563EB] transition-all shadow-md shadow-blue-500/20"
+            >
+              <span>Start a Project</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+            <Link
+              to="/discover"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg text-xs font-semibold text-slate-200 bg-[#0A0D14] hover:bg-white/[0.05] border border-white/[0.1] transition-all"
+            >
+              <span>Explore Directory</span>
             </Link>
           </div>
         </div>
-      </Reveal>
-    </section>
-  );
-}
-
-export default function Home() {
-  const { projects, loading, error, refresh } = useProjects();
-
-  return (
-    <>
-      <Hero featuredProject={projects[0]} loading={loading} />
-      <Stats projects={projects} />
-      <Marquee />
-      <Featured projects={projects} loading={loading} />
-      <HowItWorks />
-      <FinalCta />
-      {error && (
-        <div className="container-page pb-8">
-          <button
-            type="button"
-            onClick={refresh}
-            className="btn-outline btn-sm text-danger border-danger/20"
-          >
-            Failed to load on-chain data — retry
-          </button>
-        </div>
-      )}
-    </>
+      </section>
+    </div>
   );
 }

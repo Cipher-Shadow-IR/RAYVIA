@@ -1,66 +1,75 @@
 import { Link } from "react-router-dom";
+import { ExternalLink, ShieldCheck, HeartHandshake } from "lucide-react";
 
 export default function Footer({ networkName }) {
   return (
-    <footer className="band-dark border-t border-surface/10">
-      <div className="container-page grid gap-10 py-16 md:grid-cols-3">
+    <footer className="border-t border-white/[0.06] bg-[#07090E] text-[#94A3B8] text-xs">
+      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-16 grid gap-10 md:grid-cols-3">
         {/* Brand */}
-        <div>
-          <div className="flex items-center gap-2">
-            <span className="font-display text-2xl font-extrabold tracking-tight text-surface-bright uppercase">
-              RAYVIA<span className="text-electric-bright">.</span>
+        <div className="space-y-4">
+          <div className="flex items-center gap-2.5">
+            <img src="/RAYVIA_LOGO.png" alt="RAYVIA Logo" className="h-7 w-7 object-contain shrink-0" />
+            <span className="font-display text-xl font-bold tracking-tight text-white uppercase">
+              RAYVIA<span className="text-[#3B82F6]">.</span>
             </span>
           </div>
-          <p className="mt-4 max-w-sm text-sm leading-relaxed text-surface-bright/70 font-sans">
-            A decentralized platform for ideas worth building. Governed by immutable Ethereum smart contracts.
+          <p className="max-w-sm text-xs leading-relaxed text-[#94A3B8]">
+            Decentralized crowdfunding platform for ideas worth building. Governed by immutable Ethereum smart contracts with non-custodial payouts.
           </p>
-          <p className="mt-6 text-xs text-surface-bright/50 font-sans">
-            Architected & engineered by{" "}
-            <a
-              href="https://galaxir.vercel.app/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-surface-bright font-semibold underline hover:text-electric-bright transition-colors"
-            >
-              ISHAAN RAY
-            </a>
-          </p>
+          <div className="pt-2">
+            <span className="text-[11px] text-[#94A3B8] font-mono">
+              Engineered by{" "}
+              <a
+                href="https://galaxir.vercel.app/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-slate-200 font-semibold hover:text-[#3B82F6] transition-colors underline"
+              >
+                Ishaan Ray
+              </a>
+            </span>
+          </div>
         </div>
 
-        {/* Links */}
-        <div className="md:justify-self-center">
-          <div className="label-caps text-surface-bright/50 mb-4">Platform</div>
-          <ul className="space-y-2.5 text-xs font-bold uppercase tracking-wider text-surface-bright/80">
+        {/* Platform Links */}
+        <div className="md:justify-self-center space-y-3">
+          <div className="font-mono text-[11px] uppercase tracking-wider text-slate-400 font-semibold">
+            Protocol Directory
+          </div>
+          <ul className="space-y-2 text-xs font-mono text-[#94A3B8]">
             <li>
-              <Link className="hover:text-surface-bright transition-colors" to="/">
-                Home
+              <Link className="hover:text-white transition-colors" to="/">
+                Home Platform
               </Link>
             </li>
             <li>
-              <Link className="hover:text-surface-bright transition-colors" to="/discover">
+              <Link className="hover:text-white transition-colors" to="/discover">
                 Discover Archive
               </Link>
             </li>
             <li>
-              <Link className="hover:text-surface-bright transition-colors" to="/start-project">
-                Launch Campaign
+              <Link className="hover:text-white transition-colors" to="/start-project">
+                Deploy Campaign
               </Link>
             </li>
           </ul>
         </div>
 
-        {/* Socials & Developer Links */}
-        <div className="md:justify-self-end">
-          <div className="label-caps text-surface/40 mb-4">Platform Creator</div>
-          <ul className="space-y-2 text-sm text-surface/75">
+        {/* Developer & Social Links */}
+        <div className="md:justify-self-end space-y-3">
+          <div className="font-mono text-[11px] uppercase tracking-wider text-slate-400 font-semibold">
+            Developer Network
+          </div>
+          <ul className="space-y-2 text-xs font-mono text-[#94A3B8]">
             <li>
               <a
                 href="https://github.com/Cipher-Shadow-IR"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-white transition-colors"
+                className="hover:text-white transition-colors inline-flex items-center gap-1"
               >
-                GitHub
+                <span>GitHub Repository</span>
+                <ExternalLink className="w-3 h-3" />
               </a>
             </li>
             <li>
@@ -68,9 +77,10 @@ export default function Footer({ networkName }) {
                 href="https://www.linkedin.com/in/ishaan-ray-cs/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-white transition-colors"
+                className="hover:text-white transition-colors inline-flex items-center gap-1"
               >
-                LinkedIn
+                <span>LinkedIn Network</span>
+                <ExternalLink className="w-3 h-3" />
               </a>
             </li>
             <li>
@@ -78,21 +88,22 @@ export default function Footer({ networkName }) {
                 href="https://galaxir.vercel.app/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-white transition-colors"
+                className="hover:text-white transition-colors inline-flex items-center gap-1"
               >
-                Portfolio
+                <span>Portfolio Site</span>
+                <ExternalLink className="w-3 h-3" />
               </a>
             </li>
           </ul>
         </div>
       </div>
 
-      <div className="border-t border-surface/10 bg-black/20">
-        <div className="container-page flex flex-col items-center justify-between gap-4 py-6 text-xs text-surface/50 sm:flex-row">
-          <span>© {new Date().getFullYear()} RAYVIA. Built for the decentralized web.</span>
+      <div className="border-t border-white/[0.04] bg-[#05070A] py-5">
+        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-between gap-3 text-[11px] font-mono sm:flex-row text-[#94A3B8]">
+          <span>© {new Date().getFullYear()} RAYVIA Protocol • Open Source MIT</span>
           <div className="flex items-center gap-2">
-            <span className={`inline-block h-2 w-2 rounded-full ${networkName && networkName !== "NETWORK DISCONNECTED" ? "bg-success" : "bg-danger"}`} />
-            <span className="font-mono tracking-wider font-semibold text-surface/75">
+            <span className={`inline-block h-2 w-2 rounded-full ${networkName && networkName !== "NETWORK DISCONNECTED" ? "bg-[#34D399]" : "bg-rose-500"}`} />
+            <span className="font-semibold text-slate-300">
               {networkName || "NETWORK DISCONNECTED"}
             </span>
           </div>
