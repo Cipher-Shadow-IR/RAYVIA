@@ -32,8 +32,8 @@ export default function CreateProject() {
     projectLink: "",
     goal: "",
     duration: "",
-    category: "0", // 0-3
-    refundPolicy: String(REFUNDABLE), // 0/1
+    category: "0",
+    refundPolicy: String(REFUNDABLE),
     cid: "",
   });
   const [errors, setErrors] = useState({});
@@ -48,7 +48,6 @@ export default function CreateProject() {
   const goal = Number(form.goal);
   const days = Number(form.duration);
 
-  // Validate fields for Step 1: IDEA
   const validateStep1 = () => {
     const e = {};
     if (!form.name.trim()) e.name = "Give your project a name.";
@@ -63,7 +62,6 @@ export default function CreateProject() {
     return Object.keys(e).length === 0;
   };
 
-  // Validate fields for Step 2: FUNDING
   const validateStep2 = () => {
     const e = {};
     if (!form.goal || Number.isNaN(goal) || goal <= 0) {
@@ -162,7 +160,6 @@ export default function CreateProject() {
 
   return (
     <div className="container-page py-16 md:py-24">
-      {/* Title block */}
       <Reveal className="mb-12 border-b border-outline-soft pb-8">
         <div className="label-caps text-electric tracking-widest text-[11px]">Creator Studio</div>
         <h1 className="mt-4 font-display font-black text-[clamp(2.5rem,6vw,4.5rem)] tracking-tight text-ink uppercase leading-none">
@@ -173,9 +170,8 @@ export default function CreateProject() {
         </p>
       </Reveal>
 
-      {/* Stepper Bar */}
       <Reveal className="mb-10 max-w-3xl mx-auto">
-        <div className="relative flex items-center justify-between border-b border-outline-soft pb-4 font-sans text-xs">
+        <div className="relative flex items-center justify-between gap-1 border-b border-outline-soft pb-4 font-sans text-[10px] sm:text-xs">
           {[
             { n: 1, label: "01 IDEA" },
             { n: 2, label: "02 FUNDING" },
@@ -193,7 +189,7 @@ export default function CreateProject() {
                   if (s.n === 2 && validateStep1()) setStep(2);
                   if (s.n === 3 && validateStep1() && validateStep2()) setStep(3);
                 }}
-                className={`pb-2 border-b-2 transition-colors uppercase font-bold tracking-widest ${
+                className={`pb-2 border-b-2 transition-colors uppercase font-bold tracking-wider sm:tracking-widest ${
                   active
                     ? "border-electric text-electric"
                     : completed
@@ -211,13 +207,10 @@ export default function CreateProject() {
         </div>
       </Reveal>
 
-      {/* Layout Content */}
       <div className="grid gap-12 lg:grid-cols-[1fr_360px]">
-        {/* Left column - Step Forms */}
         <Reveal>
-          <form onSubmit={onSubmit} noValidate className="card p-8 bg-surface-bright border border-outline-soft shadow-sm rounded-cards">
+          <form onSubmit={onSubmit} noValidate className="card p-5 sm:p-8 bg-surface-bright border border-outline-soft shadow-sm rounded-cards">
             <div className="space-y-8">
-              {/* STEP 1: IDEA */}
               {step === 1 && (
                 <section className="space-y-6">
                   <h2 className="font-display font-black text-xl text-ink uppercase tracking-wider">01 Project Details</h2>
@@ -271,7 +264,6 @@ export default function CreateProject() {
                 </section>
               )}
 
-              {/* STEP 2: FUNDING */}
               {step === 2 && (
                 <section className="space-y-6">
                   <h2 className="font-display font-black text-xl text-ink uppercase tracking-wider">02 Campaign Funding Parameters</h2>
@@ -321,7 +313,6 @@ export default function CreateProject() {
                 </section>
               )}
 
-              {/* STEP 3: REVIEW */}
               {step === 3 && (
                 <section className="space-y-6">
                   <h2 className="font-display font-black text-xl text-ink uppercase tracking-wider">03 Project Summary Review</h2>
@@ -349,7 +340,6 @@ export default function CreateProject() {
                 </section>
               )}
 
-              {/* STEP 4: PUBLISH */}
               {step === 4 && (
                 <section className="space-y-6 text-center py-6">
                   <h2 className="font-display font-black text-2xl text-ink uppercase tracking-wider">04 Immutably Publish</h2>
@@ -362,7 +352,6 @@ export default function CreateProject() {
                 </section>
               )}
 
-              {/* Form Navigation Controls */}
               <div className="flex items-center justify-between border-t border-outline-soft pt-6">
                 {step > 1 ? (
                   <button type="button" onClick={handlePrevStep} className="btn-outline px-6 py-2.5 font-bold uppercase text-xs">
@@ -386,7 +375,6 @@ export default function CreateProject() {
           </form>
         </Reveal>
 
-        {/* Right column - Summary visual preview */}
         <Reveal className="hidden lg:block lg:sticky lg:top-28">
           <div className="card overflow-hidden border border-outline-soft shadow-sm bg-surface-bright rounded-cards">
             <div className="aspect-video w-full bg-navy relative overflow-hidden">

@@ -1,4 +1,3 @@
-// AUTO-GENERATED FILE FROM HARDHAT ARTIFACT - DO NOT EDIT MANUALLY
 export const abi = [
   {
     "anonymous": false,

@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 
-// Returns [ref, bool] — becomes true once the element scrolls into view.
 export function useInView(options = {}) {
   const ref = useRef(null);
   const [inView, setInView] = useState(false);
@@ -23,7 +22,6 @@ export function useInView(options = {}) {
     );
     observer.observe(el);
     return () => observer.disconnect();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return [ref, inView];

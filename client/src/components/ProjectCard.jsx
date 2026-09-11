@@ -34,7 +34,6 @@ export default function ProjectCard({ project, index = 0, isLarge = false }) {
         to={`/project/${project.id}`}
         className="group flex flex-col overflow-hidden rounded-xl border border-white/[0.08] bg-[#161B26] hover:bg-[#1C2331] transition-all duration-300 hover:border-white/[0.18] shadow-card hover:-translate-y-0.5 lg:grid lg:grid-cols-12 lg:items-stretch lg:h-[480px]"
       >
-        {/* Large Image Column */}
         <div className="relative overflow-hidden border-b border-white/[0.08] lg:border-b-0 lg:border-r lg:col-span-7 h-64 lg:h-full bg-[#0A0D14]">
           {showImg ? (
             <img
@@ -58,7 +57,6 @@ export default function ProjectCard({ project, index = 0, isLarge = false }) {
           </span>
         </div>
 
-        {/* Large Content Column */}
         <div className="flex flex-col justify-between p-8 lg:col-span-5 space-y-6">
           <div className="space-y-3">
             <div className="font-mono text-xs uppercase tracking-wider text-[#3B82F6] font-semibold">{categoryLabel}</div>
@@ -102,13 +100,11 @@ export default function ProjectCard({ project, index = 0, isLarge = false }) {
     );
   }
 
-  // Standard vertical card (used in Home secondary section and Discover grid)
   return (
     <Link
       to={`/project/${project.id}`}
       className="group flex h-full flex-col overflow-hidden rounded-xl border border-white/[0.08] bg-[#161B26] hover:bg-[#1C2331] transition-all duration-300 hover:border-white/[0.18] shadow-card hover:-translate-y-0.5"
     >
-      {/* Standard Image Header */}
       <div className="relative aspect-video overflow-hidden border-b border-white/[0.08] bg-[#0A0D14]">
         {showImg ? (
           <img
@@ -132,7 +128,6 @@ export default function ProjectCard({ project, index = 0, isLarge = false }) {
         </span>
       </div>
 
-      {/* Standard Card Body */}
       <div className="flex flex-1 flex-col justify-between p-5 space-y-4">
         <div className="space-y-2">
           <div className="font-mono text-[11px] text-[#3B82F6] uppercase tracking-wider font-semibold">{categoryLabel}</div>
@@ -150,7 +145,6 @@ export default function ProjectCard({ project, index = 0, isLarge = false }) {
           </div>
         </div>
 
-        {/* Card Footer: Progress & Stats */}
         <div className="space-y-3 pt-3 border-t border-white/[0.06]">
           <ProgressBar percent={project.percent} />
 

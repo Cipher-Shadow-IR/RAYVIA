@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { useWeb3 } from "../context/Web3Context";
 import { getContractRead } from "../config/contract";
-import { computeStats, toEth } from "../lib/crowdfunding";
+import { computeStats, getChainNow, toEth } from "../lib/crowdfunding";
 
-function enrich(meta, id) {
+function enrich(meta, id, now) {
   return {
     id,
     name: meta.projectName,
@@ -16,7 +16,7 @@ function enrich(meta, id) {
     totalContributors: meta.totalContributors.toNumber(),
     creationTime: meta.creationTime,
     duration: meta.duration,
-    ...computeStats(meta),
+    ...computeStats(meta, now),
   };
 }
 
@@ -53,21 +53,20 @@ export function useProfile(address) {
 
     (async () => {
       try {
-        const [createdIndexes, fundings] = await Promise.all([
+        const [createdIndexes, fundings, now] = await Promise.all([
           contract.getCreatorProjects(address),
           contract.getUserFundings(address),
+          getChainNow(provider),
         ]);
 
-        // Created
         const createdIds = createdIndexes.length ? createdIndexes.map((x) => x.toNumber()) : [];
         const createdMetas = createdIds.length ? await contract.getProjectsDetail(createdIds) : [];
-        const created = createdMetas.map((meta, i) => enrich(meta, createdIds[i]));
+        const created = createdMetas.map((meta, i) => enrich(meta, createdIds[i], now));
 
-        // Funded
         const fundedIds = fundings.length ? fundings.map((f) => f.projectIndex.toNumber()) : [];
         const fundedMetas = fundedIds.length ? await contract.getProjectsDetail(fundedIds) : [];
         const funded = fundings.map((f, i) => ({
-          ...enrich(fundedMetas[i], fundedIds[i]),
+          ...enrich(fundedMetas[i], fundedIds[i], now),
           contributed: toEth(f.totalAmount),
         }));
         const totalContributed = funded.reduce((acc, f) => acc + f.contributed, 0);

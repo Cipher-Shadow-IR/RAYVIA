@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { useWeb3 } from "../context/Web3Context";
 import { getContractRead } from "../config/contract";
-import { computeStats, toEth, toNum } from "../lib/crowdfunding";
+import { computeStats, getChainNow, toEth, toNum } from "../lib/crowdfunding";
 
 export function useProject(id) {
   const { provider } = useWeb3();
@@ -26,8 +26,8 @@ export function useProject(id) {
     let alive = true;
     (async () => {
       try {
-        const raw = await contract.getProject(id);
-        const stats = computeStats(raw);
+        const [raw, now] = await Promise.all([contract.getProject(id), getChainNow(provider)]);
+        const stats = computeStats(raw, now);
         const contributors = (raw.contributors || []).map((addr, i) => ({
           address: addr,
           amount: toEth(raw.amount[i]),

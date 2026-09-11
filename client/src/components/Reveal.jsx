@@ -4,7 +4,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Reveals children with a soft rise + fade once they enter the viewport.
 export default function Reveal({ children, y = 28, delay = 0, duration = 0.9, className = "" }) {
   const ref = useRef(null);
 

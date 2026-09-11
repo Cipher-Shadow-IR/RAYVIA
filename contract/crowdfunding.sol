@@ -16,7 +16,6 @@ contract crowdfunding is ReentrancyGuard {
         NONREFUNDABLE
     }
 
-    // Structure of each project in our dApp
     struct Project {
         string projectName;
         string projectDescription;
@@ -36,7 +35,6 @@ contract crowdfunding is ReentrancyGuard {
         bool claimedAmount;
     }
 
-    // Structure used to return metadata of each project
     struct ProjectMetadata {
         string projectName;
         string projectDescription;
@@ -50,29 +48,21 @@ contract crowdfunding is ReentrancyGuard {
         Category category;
     }
 
-    // Each user funding gets recorded in Funded structure
     struct Funded {
         uint256 projectIndex;
         uint256 totalAmount;
     }
 
-    // Stores all the projects
     Project[] private projects;
 
-    // Stores the indexes of projects created on projects list by an address
     mapping(address => uint256[]) private addressProjectsList;
 
-    // Stores the list of fundings by an address
     mapping(address => Funded[]) private addressFundingList;
 
-    // Authoritative O(1) mappings for financial accounting
-    // projectId => contributorAddress => contributionAmount
     mapping(uint256 => mapping(address => uint256)) public projectContributions;
 
-    // projectId => contributorAddress => refundClaimedBool
     mapping(uint256 => mapping(address => bool)) public refundClaimedMap;
 
-    // Events
     event ProjectCreated(
         uint256 indexed projectId,
         address indexed creator,
@@ -102,13 +92,11 @@ contract crowdfunding is ReentrancyGuard {
         uint256 amount
     );
 
-    // Modifier checking if index is valid
     modifier validIndex(uint256 _index) {
         require(_index < projects.length, "Invalid Project Id");
         _;
     }
 
-    // Create a new project and updates storage
     function createNewProject(
         string memory _name,
         string memory _desc,
@@ -165,12 +153,10 @@ contract crowdfunding is ReentrancyGuard {
         );
     }
 
-    // Returns total count of projects
     function getProjectsCount() external view returns (uint256) {
         return projects.length;
     }
 
-    // Returns the project metadata of all entries in projects
     function getAllProjectsDetail()
         external
         view
@@ -196,7 +182,6 @@ contract crowdfunding is ReentrancyGuard {
         return newList;
     }
 
-    // Returns an array of metadata of projects at given indexes
     function getProjectsDetail(
         uint256[] memory _indexList
     ) external view returns (ProjectMetadata[] memory projectsList) {
@@ -236,12 +221,10 @@ contract crowdfunding is ReentrancyGuard {
         return newList;
     }
 
-    // Returns the project struct at given index
     function getProject(
         uint256 _index
     ) external view validIndex(_index) returns (Project memory project) {
         Project memory p = projects[_index];
-        // Populate arrays dynamically from authoritative mappings for backward compatibility
         uint256 len = p.contributors.length;
         p.amount = new uint256[](len);
         p.refundClaimed = new bool[](len);
@@ -253,21 +236,18 @@ contract crowdfunding is ReentrancyGuard {
         return p;
     }
 
-    // Returns array of project indexes created by creator
     function getCreatorProjects(
         address creator
     ) external view returns (uint256[] memory createdProjects) {
         return addressProjectsList[creator];
     }
 
-    // Returns details of fundings by contributor
     function getUserFundings(
         address contributor
     ) external view returns (Funded[] memory fundedProjects) {
         return addressFundingList[contributor];
     }
 
-    // Funds the project at given index
     function fundProject(uint256 _index) external payable validIndex(_index) {
         require(msg.value > 0, "Contribution must be greater than 0");
         require(
@@ -279,20 +259,17 @@ contract crowdfunding is ReentrancyGuard {
             "Project Funding Time Expired"
         );
 
-        // O(1) contribution accounting
         if (projectContributions[_index][msg.sender] == 0) {
             projects[_index].contributors.push(msg.sender);
         }
         projectContributions[_index][msg.sender] += msg.value;
         projects[_index].amountRaised += msg.value;
 
-        // Update address funding list
         _addToUserFundingList(_index, msg.value);
 
         emit ContributionMade(_index, msg.sender, msg.value);
     }
 
-    // Internal helper for user funding history
     function _addToUserFundingList(uint256 _index, uint256 _amount) internal {
         Funded[] storage userFundings = addressFundingList[msg.sender];
         for (uint256 i = 0; i < userFundings.length; i++) {
@@ -304,7 +281,6 @@ contract crowdfunding is ReentrancyGuard {
         userFundings.push(Funded(_index, _amount));
     }
 
-    // Enables project creator to transfer raised funds to creator address
     function claimFund(uint256 _index) external validIndex(_index) nonReentrant {
         require(
             projects[_index].creatorAddress == msg.sender,
@@ -333,7 +309,6 @@ contract crowdfunding is ReentrancyGuard {
         emit FundsClaimed(_index, msg.sender, amountToTransfer);
     }
 
-    // Enables contributors to claim refund when refundable project fails goal
     function claimRefund(uint256 _index) external validIndex(_index) nonReentrant {
         require(
             block.timestamp > projects[_index].creationTime + projects[_index].duration,

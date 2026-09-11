@@ -42,7 +42,6 @@ function Hero({ featuredProject, loading }) {
       const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       if (reduced) return undefined;
 
-      // Editorial masked line reveal for the headline
       gsap.fromTo(
         "[data-hero-line]",
         { yPercent: 110, opacity: 0 },
@@ -55,7 +54,6 @@ function Hero({ featuredProject, loading }) {
         }
       );
 
-      // Chips, description, CTAs, script strip stagger in with a soft rise
       gsap.fromTo(
         "[data-hero-chunk]",
         { opacity: 0, y: 20 },
@@ -78,16 +76,13 @@ function Hero({ featuredProject, loading }) {
         
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
           
-          {/* Left Column: Kinetic Editorial Copy */}
           <div className="space-y-6 lg:col-span-7 text-left">
             
-            {/* Protocol Status Badge (Amber #FBBF24) */}
             <div data-hero-chunk className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#FBBF24]/10 border border-[#FBBF24]/20 text-xs font-mono text-[#FBBF24]">
               <span className="w-1.5 h-1.5 rounded-full bg-[#FBBF24] animate-pulse" />
               <span>RAYVIA PROTOCOL • ZERO CUSTODY ESCROW</span>
             </div>
 
-{/* Disciplined Scale Headline */}
             <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white light:text-[#0f172a] leading-[1.06]">
               <span className="block overflow-hidden">
                 <span data-hero-line className="block" style={{ willChange: "transform" }}>
@@ -105,7 +100,6 @@ function Hero({ featuredProject, loading }) {
               Autonomous, security-hardened Web3 crowdfunding platform on Ethereum. Launch creative and technical projects with transparent milestones, automated refund protections, and zero middleman fees.
             </p>
 
-            {/* Action Buttons (Sapphire #3B82F6 primary) */}
             <div data-hero-chunk className="flex flex-wrap items-center gap-3 pt-2">
               <Link to="/discover" className="btn-sheen inline-flex items-center gap-2 px-6 py-3 rounded-lg text-xs font-semibold text-white bg-[#3B82F6] hover:bg-[#2563EB] transition-all shadow-md shadow-blue-500/20 active:scale-95">
                 <span>Explore Projects</span>
@@ -116,7 +110,6 @@ function Hero({ featuredProject, loading }) {
               </Link>
             </div>
 
-            {/* Technical Verification Strip */}
             <div data-hero-chunk className="flex flex-wrap items-center gap-6 pt-4 border-t border-white/[0.06] text-xs font-mono text-[#94A3B8]">
               <span className="flex items-center gap-2">
                 <span className="h-1.5 w-1.5 rounded-full bg-[#34D399]" />
@@ -134,7 +127,6 @@ function Hero({ featuredProject, loading }) {
 
           </div>
 
-          {/* Right Column: Featured Spotlight Card */}
           <div data-hero-card className="lg:col-span-5 w-full">
             {featuredProject ? (
               <Link
@@ -309,7 +301,7 @@ function ProtocolArchitecture() {
   ];
 
   return (
-    <section className="border-t border-white/[0.06] bg-[#07090E] py-20">
+    <section className="border-t border-white/[0.06] bg-[#07090E] py-14 sm:py-20">
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 space-y-12">
         <div className="max-w-2xl mx-auto text-center space-y-3">
           <span className="font-mono text-xs uppercase tracking-wider text-[#3B82F6] font-semibold">
@@ -364,7 +356,6 @@ export default function Home() {
       <Marquee />
       <Stats projects={projects} />
 
-      {/* Featured Projects Grid Section */}
       <section className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-16 border-t border-white/[0.06] space-y-8">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div className="space-y-1">
@@ -408,8 +399,7 @@ export default function Home() {
 
       <ProtocolArchitecture />
 
-      {/* Bottom CTA Banner */}
-      <section className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-20">
+      <section className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-14 sm:py-20">
         <div className="relative rounded-2xl overflow-hidden border border-white/[0.08] bg-[#161B26] p-8 sm:p-14 text-center space-y-6 shadow-2xl">
           <div className="max-w-2xl mx-auto space-y-3">
             <h2 className="font-display text-3xl sm:text-4xl font-bold text-white tracking-tight">

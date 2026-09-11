@@ -37,7 +37,6 @@ export function ProjectCardSkeleton({ count = 4 }) {
 export function PageLoader({ label = "Syncing Ethereum Protocol State…" }) {
   return (
     <div className="flex flex-col items-center justify-center gap-6 py-32 text-center">
-      {/* Animated Official Logo Preloader */}
       <div className="relative flex items-center justify-center w-20 h-20">
         <div className="absolute inset-0 rounded-full border border-blue-500/20 animate-ping opacity-60" />
         <div className="absolute -inset-2 rounded-2xl bg-gradient-to-tr from-blue-500/20 via-indigo-500/10 to-emerald-400/20 blur-xl animate-pulse" />
@@ -72,7 +71,6 @@ export function Web3LoadingOverlay({ message = "Broadcasting Transaction...", tx
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-200">
       <div className="relative w-full max-w-sm rounded-xl bg-[#161B26] border border-white/[0.1] shadow-2xl p-6 text-center space-y-5">
         
-        {/* Animated Cyber Core */}
         <div className="relative mx-auto flex items-center justify-center w-16 h-16">
           <div className="absolute inset-0 rounded-full border-2 border-blue-500/20 animate-pulse" />
           <div className="absolute inset-2 rounded-full border-2 border-blue-500/30 border-t-[#3B82F6] border-r-[#34D399] animate-spin" />

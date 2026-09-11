@@ -1,6 +1,3 @@
-// Minimal bottom-border form fields per the design spec.
-// All inputs are controlled by the parent to guarantee immutable state updates.
-
 export function Field({ label, htmlFor, error, hint, children }) {
   return (
     <div>

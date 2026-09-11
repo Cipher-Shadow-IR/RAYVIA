@@ -33,8 +33,8 @@ export function useContractActions() {
         params.projectLink || "",
         params.goalEth,
         params.durationMinutes,
-        params.category, // explicit enum integer
-        params.refundPolicy, // explicit enum integer
+        params.category,
+        params.refundPolicy,
         params.cid
       );
       if (onTxHash) onTxHash(tx.hash);

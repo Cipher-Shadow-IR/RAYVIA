@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { useWeb3 } from "../context/Web3Context";
 import { getContractRead } from "../config/contract";
-import { computeStats } from "../lib/crowdfunding";
+import { computeStats, getChainNow } from "../lib/crowdfunding";
 
 export function useProjects() {
   const { provider } = useWeb3();
@@ -26,6 +26,7 @@ export function useProjects() {
     (async () => {
       try {
         const metas = await contract.getAllProjectsDetail();
+        const now = await getChainNow(provider);
         if (!metas.length) {
           if (!cancelled.current) setState({ projects: [], loading: false, error: null });
           return;
@@ -42,7 +43,7 @@ export function useProjects() {
           totalContributors: m.totalContributors.toNumber(),
           creationTime: m.creationTime,
           duration: m.duration,
-          ...computeStats(m),
+          ...computeStats(m, now),
         }));
         if (!cancelled.current) setState({ projects, loading: false, error: null });
       } catch (err) {

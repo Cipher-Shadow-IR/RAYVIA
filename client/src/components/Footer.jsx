@@ -5,7 +5,6 @@ export default function Footer({ networkName }) {
   return (
     <footer className="border-t border-white/[0.06] bg-[#07090E] text-[#94A3B8] text-xs">
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-16 grid gap-10 md:grid-cols-3">
-        {/* Brand */}
         <div className="space-y-4">
           <div className="flex items-center gap-2.5">
             <img src="/RAYVIA_LOGO.png" alt="RAYVIA Logo" className="h-7 w-7 object-contain shrink-0" />
@@ -31,7 +30,6 @@ export default function Footer({ networkName }) {
           </div>
         </div>
 
-        {/* Platform Links */}
         <div className="md:justify-self-center space-y-3">
           <div className="font-mono text-[11px] uppercase tracking-wider text-slate-400 font-semibold">
             Protocol Directory
@@ -55,7 +53,6 @@ export default function Footer({ networkName }) {
           </ul>
         </div>
 
-        {/* Developer & Social Links */}
         <div className="md:justify-self-end space-y-3">
           <div className="font-mono text-[11px] uppercase tracking-wider text-slate-400 font-semibold">
             Developer Network

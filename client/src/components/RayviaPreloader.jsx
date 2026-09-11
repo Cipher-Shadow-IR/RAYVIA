@@ -61,13 +61,11 @@ export default function RayviaPreloader() {
 
   return (
     <div className="fixed inset-0 z-[200] flex items-center justify-center" aria-hidden="true">
-      {/* Curtain */}
       <div
         data-pre-curtain
         className="absolute inset-0 bg-[#0A0D14] flex items-center justify-center"
       >
         <div data-pre-block className="flex flex-col items-center gap-5 text-center select-none">
-          {/* Mark */}
           <div data-pre-mark className="relative">
             <img
               src="/RAYVIA_LOGO.png"
@@ -77,7 +75,6 @@ export default function RayviaPreloader() {
             <div className="absolute -inset-4 rounded-full bg-[#3B82F6]/15 blur-2xl" />
           </div>
 
-          {/* Wordmark */}
           <span
             data-pre-word
             className="font-display text-2xl sm:text-3xl font-bold tracking-tight uppercase text-white"
@@ -86,12 +83,10 @@ export default function RayviaPreloader() {
             RAYVIA<span className="text-[#3B82F6]">.</span>
           </span>
 
-          {/* Sub-label */}
           <span data-pre-sub className="font-mono text-[11px] uppercase tracking-[0.3em] text-[#94A3B8]">
             Decentralized Crowdfunding Protocol
           </span>
 
-          {/* Progress line */}
           <div className="mt-1 h-px w-44 overflow-hidden bg-slate-400/30 dark:bg-white/[0.08]">
             <div
               data-pre-line

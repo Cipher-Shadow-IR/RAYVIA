@@ -2,7 +2,6 @@ import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import { useInView } from "../hooks/useInView";
 
-// Counts up to `value` once scrolled into view (decimal-safe display formatting).
 export default function CountUp({ value, decimals = 0, prefix = "", suffix = "", className = "", duration = 1.6 }) {
   const textRef = useRef(null);
   const [ref, inView] = useInView();

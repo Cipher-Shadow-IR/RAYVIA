@@ -31,7 +31,6 @@ export default function Profile() {
     { id: "funded", label: `Backed · ${funded.length}` },
   ];
 
-  // Compute total ETH raised across all projects created by this wallet
   const totalRaised = useMemo(() => {
     return created.reduce((acc, p) => acc + p.raised, 0);
   }, [created]);
@@ -62,15 +61,12 @@ export default function Profile() {
   if (loading) return <PageLoader label="Loading profile data…" />;
   if (error) return <div className="container-page py-16 md:py-24"><ErrorState message={error} onRetry={refresh} /></div>;
 
-  // Derive first hex character of address for avatar (after '0x')
   const avatarChar = address && address.length > 2 ? address.slice(2, 3).toUpperCase() : "?";
 
   return (
     <div className="container-page py-16 md:py-24 space-y-12">
-      {/* Editorial Profile Header */}
       <Reveal className="border-b border-outline-soft pb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
         <div className="flex items-center gap-5">
-          {/* Letter-based avatar */}
           <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-lg bg-navy text-surface-bright font-display text-2xl font-black uppercase">
             {avatarChar}
           </div>
@@ -82,7 +78,7 @@ export default function Profile() {
               href={`${EXPLORER_URL}/address/${display.address}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-1 block font-mono text-lg md:text-xl font-bold text-ink hover:text-electric transition-colors break-all select-all"
+              className="mt-1 block font-mono text-base sm:text-lg md:text-xl font-bold text-ink hover:text-electric transition-colors break-all sm:break-normal select-all"
             >
               {display.address}
             </a>
@@ -101,28 +97,26 @@ export default function Profile() {
         </div>
       </Reveal>
 
-      {/* 4-Stat Grid — matches spec exactly */}
-      <Reveal className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+      <Reveal className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         {[
           { label: "Created Campaigns", value: created.length, suffix: "" },
           { label: "Total ETH Raised", value: totalRaised, suffix: " ETH", decimals: 2 },
           { label: "Backed Campaigns", value: funded.length, suffix: "" },
           { label: "Total ETH Backed", value: totalContributed, suffix: " ETH", decimals: 2 },
         ].map((stat) => (
-          <div key={stat.label} className="card p-6 border border-outline-soft bg-surface-bright shadow-sm rounded-cards">
+          <div key={stat.label} className="card p-4 sm:p-6 min-w-0 border border-outline-soft bg-surface-bright shadow-sm rounded-cards">
             <div className="label-caps text-ink-faint text-[10px] tracking-wider">{stat.label}</div>
             <CountUp
               value={stat.value}
               decimals={stat.decimals || 0}
               suffix={stat.suffix}
-              className="mt-3 font-display text-3xl font-black tracking-tight text-ink"
+              className="mt-3 font-display text-xl md:text-2xl lg:text-3xl font-black tracking-tight text-ink leading-tight break-words"
             />
           </div>
         ))}
       </Reveal>
 
-      {/* Tabbed Project Lists */}
-      <Reveal className="flex gap-2 border-b border-outline-soft pb-0">
+      <Reveal className="flex gap-2 border-b border-outline-soft pb-0 overflow-x-auto whitespace-nowrap">
         {tabs.map((t) => (
           <button
             key={t.id}

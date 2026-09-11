@@ -23,6 +23,8 @@ function CursorSpotlight() {
   const [pos, setPos] = useState({ x: -1000, y: -1000 });
 
   useEffect(() => {
+    const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    if (!finePointer) return undefined;
     const handleMove = (e) => {
       setPos({ x: e.clientX, y: e.clientY });
     };
@@ -46,7 +48,6 @@ function CursorSpotlight() {
 export default function Layout({ children, networkName }) {
   const { pathname } = useLocation();
 
-  // Initialize Lenis Momentum Smooth Scrolling
   useEffect(() => {
     const lenis = new Lenis({
       duration: 1.2,
@@ -72,7 +73,6 @@ export default function Layout({ children, networkName }) {
       <ScrollManager />
       <CursorSpotlight />
       
-      {/* Background Grid Pattern with Radial Mask */}
       <div className="fixed inset-0 bg-grid-mask pointer-events-none -z-10" />
 
       <Navbar />

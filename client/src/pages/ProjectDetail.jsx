@@ -69,11 +69,9 @@ function ActionPanel({ project, actions }) {
   const [amount, setAmount] = useState("");
   const [busy, setBusy] = useState(null);
 
-  // Backing confirmation modal states
   const [confirmModal, setConfirmModal] = useState(false);
   const [txState, setTxState] = useState("");
 
-  // Monotonic countdown states
   const [timerString, setTimerString] = useState("Loading...");
   const [isOver, setIsOver] = useState(project.expired);
 
@@ -101,17 +99,16 @@ function ActionPanel({ project, actions }) {
   const isExpired = isOver || project.expired;
 
   const canClaim = !project.claimedAmount && isExpired && (
-    project.refundPolicy === 1 /* NON_REFUNDABLE */ || project.goalMet
+    project.refundPolicy === 1  || project.goalMet
   );
 
   const canRefund =
     isExpired &&
-    project.refundPolicy === 0 /* REFUNDABLE */ &&
+    project.refundPolicy === 0  &&
     !project.goalMet &&
     contribution > 0 &&
     !refundClaimed;
 
-  // Anchor-based monotonic blockchain countdown timer hook
   useEffect(() => {
     if (!project.creationTime || !project.duration || !provider) {
       return;
@@ -245,7 +242,7 @@ function ActionPanel({ project, actions }) {
 
   return (
     <>
-      <Reveal className="card p-8 shadow-sm border border-outline-soft sticky top-28 bg-surface-bright rounded-cards">
+      <Reveal className="card p-5 sm:p-8 shadow-sm border border-outline-soft sticky top-24 lg:top-28 bg-surface-bright rounded-cards">
         <div className="flex items-center justify-between">
           <span className="label-caps text-ink-faint tracking-widest text-[11px]">Funding Panel</span>
           {isOwner && <span className="chip-soft text-[10px] font-bold">YOUR PROJECT</span>}
@@ -269,7 +266,6 @@ function ActionPanel({ project, actions }) {
           <ProgressBar percent={project.percent} />
         </div>
 
-        {/* Grid for Backers & Time remaining */}
         <div className="grid grid-cols-2 gap-4 mt-6">
           <div className="card bg-surface-container-low p-4 border border-outline-soft text-center">
             <div className="font-mono text-2xl font-bold text-ink">
@@ -290,7 +286,6 @@ function ActionPanel({ project, actions }) {
           <CategoryChip id={project.category} />
         </div>
 
-        {/* ---- Active funding for Backers ---- */}
         {!isExpired && !isOwner && (
           <div className="mt-6 border-t border-outline-soft pt-6">
             <label htmlFor="fund-amount" className="field-label">Contribution Amount (ETH)</label>
@@ -322,7 +317,6 @@ function ActionPanel({ project, actions }) {
           </div>
         )}
 
-        {/* ---- Owner Payout State ---- */}
         {isOwner && !isExpired && (
           <div className="mt-6 rounded-md border border-outline-soft bg-surface-container-low p-4 text-xs text-ink-soft text-center font-sans">
             This project is active. Claim raised funds here once it expires on {formatTimestamp(project.deadline)}.
@@ -354,7 +348,6 @@ function ActionPanel({ project, actions }) {
           </div>
         )}
 
-        {/* ---- Backer Refund State ---- */}
         {!isOwner && isExpired && (
           <div className="mt-6 border-t border-outline-soft pt-6">
             {canRefund ? (
@@ -395,7 +388,6 @@ function ActionPanel({ project, actions }) {
       )}
     </Reveal>
 
-    {/* CONFIRMATION MODAL - Trustworthy styling & clear states */}
     {confirmModal && (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-[2px]">
         <div className="card w-full max-w-md p-8 bg-surface-bright border border-outline-soft shadow-float relative space-y-6 rounded-cards">
@@ -432,7 +424,6 @@ function ActionPanel({ project, actions }) {
             </div>
           </div>
 
-          {/* Dynamic Transaction States */}
           {busy === "funding" ? (
             <div className="text-center py-4 space-y-4">
               <div className="flex justify-center">
@@ -497,7 +488,6 @@ export default function ProjectDetail() {
 
   return (
     <div className="container-page py-16 md:py-24">
-      {/* Breadcrumb */}
       <div className="mb-8 flex flex-wrap items-center gap-2 font-mono text-xs text-ink-faint">
         <Link to="/discover" className="hover:text-electric transition-colors">DISCOVER</Link>
         <span>/</span>
@@ -506,9 +496,7 @@ export default function ProjectDetail() {
         <span className="text-ink uppercase tracking-tight font-semibold">{project.name}</span>
       </div>
 
-      {/* 12-Column Editorial Grid */}
       <div className="grid gap-12 lg:grid-cols-12 items-start">
-        {/* Left Column (7 cols): Images, description, creators, backers */}
         <div className="lg:col-span-7 space-y-8 min-w-0">
           <Reveal className="relative aspect-video w-full overflow-hidden rounded-cards border border-outline-soft bg-surface-container-high">
             {src && !imgError ? (
@@ -520,7 +508,7 @@ export default function ProjectDetail() {
               />
             ) : (
               <div className="flex h-full w-full flex-col items-center justify-center gap-3 bg-navy text-surface-bright">
-                <span className="font-mono text-6xl font-black tracking-tight text-surface-bright/40">RAYVIA</span>
+                <span className="font-mono text-4xl sm:text-6xl font-black tracking-tight text-surface-bright/40">RAYVIA</span>
                 <span className="font-mono text-xs tracking-widest text-surface-bright/50">CAMPAIGN ARCHIVE #{project.id}</span>
               </div>
             )}
@@ -531,7 +519,6 @@ export default function ProjectDetail() {
               {project.name}
             </h1>
 
-            {/* Dynamic Creator identity card */}
             <div className="flex items-center gap-4 border-t border-b border-outline-soft py-6">
               <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-navy text-surface-bright font-display text-xl font-bold uppercase">
                 {(project.creatorName || "C").charAt(0).toUpperCase()}
@@ -547,7 +534,6 @@ export default function ProjectDetail() {
               </div>
             </div>
 
-            {/* Project description/about */}
             <article className="pt-2">
               <h2 className="label-caps text-ink-faint tracking-widest text-[11px] mb-4">About this project</h2>
               <p className="whitespace-pre-wrap text-base md:text-lg leading-relaxed text-ink-soft font-sans">
@@ -556,13 +542,11 @@ export default function ProjectDetail() {
             </article>
           </Reveal>
 
-          {/* Contributors List */}
           <Reveal>
             <ContributorList contributors={project.contributors} />
           </Reveal>
         </div>
 
-        {/* Right Column (5 cols): Sticky action panel */}
         <aside className="lg:col-span-5">
           <ActionPanel project={project} actions={actions} />
         </aside>

@@ -27,13 +27,11 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/discover" element={<Discover />} />
           <Route path="/project/:id" element={<ProjectDetail />} />
-          
-          {/* Create Project Routes */}
+
           <Route path="/start-project" element={<CreateProject />} />
           <Route path="/create_project" element={<CreateProject />} />
           <Route path="/create" element={<Navigate to="/start-project" replace />} />
-          
-          {/* Profile Routes */}
+
           <Route path="/profile" element={<Profile />} />
           <Route path="/profile/:address" element={<Profile />} />
           

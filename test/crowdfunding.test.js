@@ -25,10 +25,10 @@ describe("Crowdfunding Smart Contract Hardening & Security Audit Suite", functio
         "Community effort to build bee sanctuaries",
         "Alice",
         "https://example.com",
-        1, // 1 ETH goal
-        10, // 10 minutes
-        0, // Category: DESIGNANDTECH
-        0, // RefundPolicy: REFUNDABLE
+        1,
+        10,
+        0,
+        0,
         "QmTestCid123"
       );
 
@@ -138,9 +138,9 @@ describe("Crowdfunding Smart Contract Hardening & Security Audit Suite", functio
         "Plastic cleanup initiative",
         "Bob",
         "https://example.com",
-        2, // 2 ETH goal
-        10, // 10 minutes
-        0, // REFUNDABLE
+        2,
+        10,
+        0,
         0,
         "QmCleanOceans"
       );
@@ -208,10 +208,10 @@ describe("Crowdfunding Smart Contract Hardening & Security Audit Suite", functio
         "Solar powered transportation",
         "Carol",
         "https://example.com",
-        2, // 2 ETH goal
-        10, // 10 minutes
+        2,
+        10,
         0,
-        0, // REFUNDABLE
+        0,
         "QmSolarBus"
       );
 
@@ -269,10 +269,10 @@ describe("Crowdfunding Smart Contract Hardening & Security Audit Suite", functio
         "Low budget film project",
         "Dave",
         "https://example.com",
-        5, // 5 ETH goal
-        10, // 10 minutes
-        1, // Category FILM
-        0, // REFUNDABLE
+        5,
+        10,
+        1,
+        0,
         "QmIndieFilm"
       );
 
@@ -328,10 +328,10 @@ describe("Crowdfunding Smart Contract Hardening & Security Audit Suite", functio
         "Charity donation drive",
         "Eve",
         "https://example.com",
-        10, // 10 ETH goal
-        10, // 10 mins
+        10,
+        10,
         0,
-        1, // NONREFUNDABLE
+        1,
         "QmNonRefund"
       );
 

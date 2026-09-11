@@ -21,7 +21,7 @@ export default function Discover() {
   }, [searchParams]);
 
   const filterCls = (active) =>
-    `rounded-lg border px-3.5 py-1.5 text-xs font-mono font-medium transition-all ${
+    `rounded-lg border px-3.5 py-1.5 text-xs font-mono font-medium transition-all whitespace-nowrap shrink-0 ${
       active
         ? "border-[#3B82F6] bg-[#3B82F6] text-white shadow-sm font-semibold"
         : "border-white/[0.08] bg-[#161B26] text-[#94A3B8] hover:border-white/[0.18] hover:text-white"
@@ -59,7 +59,6 @@ export default function Discover() {
   return (
     <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-12 space-y-8">
       
-      {/* Header */}
       <div className="space-y-2 border-b border-white/[0.06] pb-6">
         <span className="font-mono text-xs uppercase tracking-wider text-[#3B82F6] font-semibold">
           Decentralized Registry
@@ -72,10 +71,8 @@ export default function Discover() {
         </p>
       </div>
 
-      {/* Toolbar: Categories, Search, Sort */}
       <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between border-b border-white/[0.06] pb-6">
-        {/* Category Pills */}
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex items-center gap-2 overflow-x-auto pb-1">
           {["all", ...CATEGORIES.map((c) => c.id)].map((id) => (
             <button
               key={id}
@@ -88,9 +85,8 @@ export default function Discover() {
           ))}
         </div>
 
-        {/* Search & Sort */}
         <div className="flex flex-wrap items-center gap-3">
-          <div className="relative flex items-center gap-2 rounded-lg border border-white/[0.08] bg-[#161B26] px-3 py-1.5 w-64 focus-within:border-[#3B82F6]">
+          <div className="relative flex items-center gap-2 rounded-lg border border-white/[0.08] bg-[#161B26] px-3 py-1.5 w-full sm:w-64 focus-within:border-[#3B82F6]">
             <Search className="w-3.5 h-3.5 text-[#94A3B8]" />
             <input
               value={query}
@@ -103,7 +99,7 @@ export default function Discover() {
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
-            className="rounded-lg border border-white/[0.08] bg-[#161B26] px-3 py-1.5 text-xs font-mono font-medium text-slate-200 outline-none cursor-pointer focus:border-[#3B82F6]"
+            className="rounded-lg border border-white/[0.08] bg-[#161B26] px-3 py-1.5 text-xs font-mono font-medium text-slate-200 outline-none cursor-pointer focus:border-[#3B82F6] flex-1 min-w-[128px] sm:flex-none"
           >
             <option value="newest" className="bg-[#161B26]">Newest First</option>
             <option value="most_funded" className="bg-[#161B26]">Most Funded</option>
@@ -112,7 +108,6 @@ export default function Discover() {
         </div>
       </div>
 
-      {/* Content Area */}
       {loading ? (
         <ProjectCardSkeleton count={6} />
       ) : error ? (

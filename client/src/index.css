@@ -1,17 +1,10 @@
 @import "tailwindcss";
 
-/* ============================================================
-   RAYVIA — Decentralized Web3 Crowdfunding Protocol
-   High-Trust Institutional Design System (Aligned with AuraGiving, Credivir, Leasir)
-   ============================================================ */
-
 @theme {
-  /* Typography */
   --font-display: "Syne", sans-serif;
   --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", "Geist Mono", monospace;
 
-  /* Surfaces */
   --color-surface-base: #0a0d14;
   --color-surface: #0a0d14;
   --color-surface-pure: #000000;
@@ -20,7 +13,6 @@
   --color-surface-input: #0f131c;
   --color-surface-border: rgba(255, 255, 255, 0.08);
 
-  /* Legacy mappings for backward-compatibility */
   --color-surface-dim: #050508;
   --color-surface-bright: #161b26;
   --color-surface-container-lowest: #050508;
@@ -29,41 +21,34 @@
   --color-surface-container-high: #1c2331;
   --color-surface-container-highest: #242c3d;
 
-  /* High-Contrast Text & Data Hierarchy */
-  --color-ink: #f3f4f6; /* Off-white primary text */
-  --color-ink-soft: #94a3b8; /* Slate-400 secondary text */
-  --color-ink-faint: #64748b; /* Slate-500 subdued text */
+  --color-ink: #f3f4f6;
+  --color-ink-soft: #94a3b8;
+  --color-ink-faint: #64748b;
   --color-outline-soft: rgba(255, 255, 255, 0.08);
   --color-line: rgba(255, 255, 255, 0.08);
 
-  /* Primary Action & Security (Sapphire Blue #3B82F6) */
   --color-primary: #3b82f6;
   --color-primary-hover: #2563eb;
   --color-navy: #161b26;
   --color-navy-black: #0a0d14;
 
-  /* Brand Accents */
   --color-electric: #3b82f6;
   --color-electric-bright: #60a5fa;
   --color-secondary: #3b82f6;
   --color-secondary-container: #2563eb;
 
-  /* Growth & Progress (Mint Green #34D399) */
   --color-success: #34d399;
   --color-mint: #34d399;
 
-  /* Attention & Active Badges (Amber #FBBF24) */
   --color-warning: #fbbf24;
   --color-amber: #fbbf24;
   --color-danger: #ef4444;
 
-  /* Radii & Elevation */
   --radius-soft: 8px;
   --radius-btn: 8px;
   --radius-cards: 14px;
 }
 
-/* ---------- Light Theme Override ---------- */
 .light {
   --color-surface-base: #f8fafc;
   --color-surface: #f8fafc;
@@ -101,7 +86,6 @@
   color: #0f172a !important;
 }
 
-/* Hardcoded Tailwind hex overrides for instant crisp Light Mode */
 .light .bg-\[\#0A0D14\],
 .light .bg-\[\#0a0d14\],
 .light .bg-\[\#07090E\],
@@ -173,7 +157,6 @@
   box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.06), 0 2px 6px -1px rgba(0, 0, 0, 0.04) !important;
 }
 
-/* Card Contours & Backings: Light #FFFFFF */
 .light .card,
 .light .gradient-border {
   background-color: #ffffff !important;
@@ -196,7 +179,6 @@
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08) !important;
 }
 
-/* Primary Buttons / CTAs: Light #1E40AF */
 .light .btn-primary,
 .light .btn-electric {
   background-color: #1e40af !important;
@@ -228,7 +210,6 @@
   background-color: rgba(0, 0, 0, 0.06) !important;
 }
 
-/* Campaign Progress Bars: Light #059669 */
 .light .progress-track {
   background-color: rgba(0, 0, 0, 0.06) !important;
 }
@@ -237,7 +218,6 @@
   box-shadow: 0 0 8px rgba(5, 150, 105, 0.3) !important;
 }
 
-/* Active Badges: Light #F59E0B */
 .light .chip-soft {
   background-color: rgba(245, 158, 11, 0.1) !important;
   border-color: rgba(245, 158, 11, 0.3) !important;
@@ -250,7 +230,6 @@
   color: #1e40af !important;
 }
 
-/* High-contrast forms */
 .light .field {
   background-color: #ffffff !important;
   border-color: rgba(0, 0, 0, 0.12) !important;
@@ -267,7 +246,6 @@
   color: #475569 !important;
 }
 
-/* Header, Footer & Grids */
 .light header {
   background-color: rgba(255, 255, 255, 0.9) !important;
   border-bottom-color: rgba(0, 0, 0, 0.08) !important;
@@ -309,7 +287,6 @@
   background: #94a3b8;
 }
 
-/* ---------- Motion Accessibility ---------- */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -321,7 +298,6 @@
   }
 }
 
-/* ---------- Base Styles & Reset ---------- */
 html {
   scroll-behavior: smooth;
 }
@@ -367,7 +343,6 @@ code, kbd, samp, .mono {
   color: #93c5fd;
 }
 
-/* Background Grid with Radial Fade Mask */
 .bg-grid-mask {
   background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
                     linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
@@ -376,7 +351,6 @@ code, kbd, samp, .mono {
   -webkit-mask-image: radial-gradient(ellipse 60% 50% at 50% 0%, #000 70%, transparent 100%);
 }
 
-/* High-contrast structural card backing with gradient border */
 .gradient-border {
   position: relative;
   background: #161b26;
@@ -399,7 +373,6 @@ code, kbd, samp, .mono {
   background: linear-gradient(135deg, rgba(59, 130, 246, 0.4) 0%, rgba(255, 255, 255, 0.06) 100%);
 }
 
-/* Interactive Hover Sheen for Primary Sapphire CTAs */
 .btn-sheen {
   position: relative;
   overflow: hidden;
@@ -421,7 +394,6 @@ code, kbd, samp, .mono {
   transform: rotate(30deg) translateX(100%);
 }
 
-/* Custom Minimalist Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -437,9 +409,7 @@ code, kbd, samp, .mono {
   background: #2d3748;
 }
 
-/* ---------- Layout helpers & Component Classes ---------- */
 @layer components {
-  /* Strictly centered container with generous horizontal breathing room */
   .container-page {
     @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
   }
@@ -464,7 +434,6 @@ code, kbd, samp, .mono {
     line-height: 1.05;
   }
 
-  /* ---------- Buttons ---------- */
   .btn {
     display: inline-flex;
     align-items: center;
@@ -488,7 +457,6 @@ code, kbd, samp, .mono {
     pointer-events: none;
   }
 
-  /* Primary Sapphire #3B82F6 CTA */
   .btn-primary {
     background-color: #3b82f6;
     color: #ffffff;
@@ -538,7 +506,6 @@ code, kbd, samp, .mono {
     font-size: 0.875rem;
   }
 
-  /* ---------- Structural Cards & Containers (#161B26) ---------- */
   .card {
     border-radius: 14px;
     border: 1px solid rgba(255, 255, 255, 0.08);
@@ -562,7 +529,6 @@ code, kbd, samp, .mono {
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   }
 
-  /* ---------- High-Contrast Form Fields ---------- */
   .field {
     width: 100%;
     border-radius: 8px;
@@ -595,7 +561,6 @@ code, kbd, samp, .mono {
     font-family: var(--font-mono);
   }
 
-  /* ---------- Badges & Chips ---------- */
   .chip {
     display: inline-flex;
     align-items: center;
@@ -625,7 +590,6 @@ code, kbd, samp, .mono {
     font-family: var(--font-mono);
   }
 
-  /* ---------- Progress Bars (#34D399 Mint) ---------- */
   .progress-track {
     position: relative;
     height: 6px;
@@ -642,7 +606,6 @@ code, kbd, samp, .mono {
     transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  /* Dark bands */
   .band-dark {
     background-color: #0a0d14;
     color: #f3f4f6;
@@ -652,7 +615,6 @@ code, kbd, samp, .mono {
   }
 }
 
-/* ---------- Motion & Marquee ---------- */
 @keyframes marquee {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }

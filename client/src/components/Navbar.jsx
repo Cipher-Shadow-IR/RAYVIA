@@ -52,8 +52,7 @@ export default function Navbar() {
     >
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 flex h-20 items-center justify-between gap-4">
         
-        {/* Left Zone: Brand / Logo (min-width balances right side) */}
-        <div className="flex items-center justify-start min-w-[200px] shrink-0">
+        <div className="flex items-center justify-start min-w-0 shrink-0">
           <Link to="/" className="flex items-center gap-3 group py-1" onClick={() => setOpen(false)}>
             <img
               src="/RAYVIA_LOGO.png"
@@ -71,7 +70,6 @@ export default function Navbar() {
           </Link>
         </div>
 
-        {/* Center Zone: Evenly Spaced Nav Pills */}
         <nav className="hidden md:flex items-center justify-center flex-1">
           <div className="flex items-center gap-1 bg-white/[0.03] p-1.5 rounded-full border border-white/[0.08] shadow-sm">
             {NAV_LINKS.map((link) => (
@@ -87,9 +85,7 @@ export default function Navbar() {
           </div>
         </nav>
 
-        {/* Right Zone: Search & Wallet Button (min-width balances left side) */}
-        <div className="flex items-center justify-end min-w-[200px] gap-3 shrink-0">
-          {/* Functional Search Box */}
+        <div className="flex items-center justify-end min-w-0 gap-2 sm:gap-3 shrink-0">
           <form
             onSubmit={handleSearchSubmit}
             className="relative hidden max-w-xs items-center gap-2 rounded-lg border border-white/[0.08] bg-[#161B26] h-9 px-3 sm:flex focus-within:border-[#3B82F6] transition-colors"
@@ -104,13 +100,10 @@ export default function Navbar() {
             />
           </form>
 
-          {/* Theme Toggle Button */}
           <ThemeToggle />
 
-          {/* Connect Wallet Button */}
           <WalletButton />
 
-          {/* Mobile Menu Button */}
           <button
             type="button"
             aria-label="Toggle menu"
@@ -123,7 +116,6 @@ export default function Navbar() {
 
       </div>
 
-      {/* Mobile Drawer */}
       {open && (
         <div className="md:hidden border-b border-white/[0.08] light:border-black/[0.08] bg-[#0A0D14]/95 light:bg-white/95 backdrop-blur-2xl px-6 py-5 space-y-4">
           <form onSubmit={handleSearchSubmit} className="relative flex items-center gap-2 rounded-lg border border-white/[0.08] light:border-black/[0.1] bg-[#161B26] light:bg-[#f1f5f9] px-3 py-2">

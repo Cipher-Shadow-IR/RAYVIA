@@ -1,6 +1,3 @@
-// Contract model helpers.
-// IMPORTANT: Solidity enums are compared as explicit integers only (never truthiness).
-
 export const CATEGORIES = [
   { id: 0, label: "Design & Tech", tone: "purple" },
   { id: 1, label: "Film", tone: "blue" },
@@ -27,7 +24,6 @@ export function policyHue(id) {
   return Number(id) === NON_REFUNDABLE ? "navy" : "aurora";
 }
 
-// Normalise an ethers value (BigNumber) into an ETH decimal number.
 export function toEth(value) {
   let raw = value;
   if (raw && typeof raw.toString === "function") raw = raw.toString();
@@ -38,7 +34,6 @@ export function toEth(value) {
   return parseFloat(`${whole}.${frac}`) || 0;
 }
 
-// Normalise an ethers BigNumber (or plain number) into a JS number.
 export function toNum(value) {
   if (value !== null && value !== undefined && typeof value.toNumber === "function") {
     return value.toNumber();
@@ -46,24 +41,31 @@ export function toNum(value) {
   return Number(value ?? 0);
 }
 
-// Computes display-ready statistics for a project metadata object.
-// Expects raw BigNumber values for fundingGoal / amountRaised and
-// numbers (or BigNumbers) for creationTime / duration.
-export function computeStats(project) {
+export async function getChainNow(provider) {
+  try {
+    const block = await provider.getBlock("latest");
+    if (block && block.timestamp) return Number(block.timestamp);
+  } catch (err) {
+    console.warn("getChainNow failed, falling back to local clock:", err?.message);
+  }
+  return Math.floor(Date.now() / 1000);
+}
+
+export function computeStats(project, now) {
   const goal = toEth(project.fundingGoal);
   const raised = toEth(project.amountRaised);
   const contributors = toNum(project.totalContributors ?? 0);
   const created = toNum(project.creationTime);
   const duration = toNum(project.duration);
   const deadline = created + duration;
-  const now = Math.floor(Date.now() / 1000);
+  const current = typeof now === "number" ? now : Math.floor(Date.now() / 1000);
 
-  const expired = now > deadline;
+  const expired = current > deadline;
   const goalMet = raised >= goal;
   const percent = goal > 0 ? Math.min(100, Math.round((raised / goal) * 100)) : 0;
-  const secondsLeft = Math.max(0, deadline - now);
+  const secondsLeft = Math.max(0, deadline - current);
 
-  return { goal, raised, contributors, deadline, expired, goalMet, percent, secondsLeft };
+  return { goal, raised, contributors, deadline, expired, goalMet, percent, secondsLeft, now: current };
 }
 
 export function timeLeftLabel(secondsLeft) {

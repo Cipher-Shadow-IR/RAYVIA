@@ -1,6 +1,5 @@
 import { policyLabel } from "../lib/crowdfunding";
 
-// Refundable projects use an aurora-gradient marker, non-refundable use navy.
 export default function PolicyTag({ id, className = "" }) {
   const refundable = Number(id) === 0;
   return (

@@ -1,7 +1,6 @@
 import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 
-// Fades a routed page into view. Re-mount (keyed by pathname) to re-trigger.
 export default function PageFade({ children }) {
   const ref = useRef(null);
 
