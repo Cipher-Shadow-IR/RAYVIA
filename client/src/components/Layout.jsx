@@ -5,6 +5,8 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import ToastViewport from "./ToastViewport";
 import RayviaPreloader from "./RayviaPreloader";
+import { useWeb3 } from "../context/Web3Context";
+import { NETWORK_NAME } from "../config/contract";
 
 function ScrollManager() {
   const { pathname } = useLocation();
@@ -47,6 +49,7 @@ function CursorSpotlight() {
 
 export default function Layout({ children, networkName }) {
   const { pathname } = useLocation();
+  const { isWrongNetwork, chainId, switchToSepolia } = useWeb3();
 
   useEffect(() => {
     const lenis = new Lenis({
@@ -76,6 +79,22 @@ export default function Layout({ children, networkName }) {
       <div className="fixed inset-0 bg-grid-mask pointer-events-none -z-10" />
 
       <Navbar />
+      {isWrongNetwork && (
+        <div className="w-full border-b border-[#FBBF24]/30 bg-[#FBBF24]/10 text-center">
+          <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-2 flex flex-col sm:flex-row items-center justify-center gap-2">
+            <span className="text-[11px] sm:text-xs font-mono text-[#FBBF24]">
+              You're on chain {chainId || "unknown"} — this app runs on {NETWORK_NAME} (chain 11155111). Transactions will fail otherwise.
+            </span>
+            <button
+              type="button"
+              onClick={switchToSepolia}
+              className="rounded-md border border-[#FBBF24]/50 bg-[#FBBF24]/20 px-3 py-1 text-[11px] font-semibold text-[#FBBF24] hover:bg-[#FBBF24]/30 transition-colors cursor-pointer"
+            >
+              Switch to {NETWORK_NAME}
+            </button>
+          </div>
+        </div>
+      )}
       <main key={pathname} className="flex-1 w-full overflow-x-hidden">
         {children}
       </main>

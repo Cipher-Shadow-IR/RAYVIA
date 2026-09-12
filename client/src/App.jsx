@@ -9,16 +9,18 @@ import CreateProject from "./pages/CreateProject";
 import Profile from "./pages/Profile";
 import { NotFound } from "./pages/NotFound";
 import { useWeb3 } from "./context/Web3Context";
+import { NETWORK_NAME } from "./config/contract";
 
 export default function App() {
-  const { account, chainId } = useWeb3();
+  const { account, chainId, expectedChainId } = useWeb3();
 
   const resolvedNetwork = useMemo(() => {
     if (!account) return "NETWORK DISCONNECTED";
+    if (Number(expectedChainId) === 11155111) return "ETHEREUM SEPOLIA";
     if (chainId === 31337) return "HARDHAT LOCAL";
-    if (chainId === 11155111) return "ETHEREUM SEPOLIA";
+    if (Number(chainId) === Number(expectedChainId)) return NETWORK_NAME;
     return `CHAIN ${chainId || "UNKNOWN"}`;
-  }, [account, chainId]);
+  }, [account, chainId, expectedChainId]);
 
   return (
     <Layout networkName={resolvedNetwork}>

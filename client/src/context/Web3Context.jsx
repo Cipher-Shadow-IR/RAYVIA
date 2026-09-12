@@ -12,6 +12,8 @@ import {
   getWalletProvider,
   chainLabel,
   CHAIN_ID,
+  NETWORK_NAME,
+  RPC_URL,
 } from "../config/contract";
 
 const Web3Context = createContext(null);
@@ -109,6 +111,48 @@ export function Web3Provider({ children }) {
     setError(null);
   }, [resetToReadOnly]);
 
+  const switchToSepolia = useCallback(async () => {
+    const ethereum = window.ethereum;
+    if (!ethereum) {
+      setError("No wallet detected. Install MetaMask (or another EIP-1193 wallet) to continue.");
+      return false;
+    }
+    try {
+      await ethereum.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: "0xaa36a7" }],
+      });
+      return true;
+    } catch (err) {
+      if (err && err.code === 4902) {
+        try {
+          await ethereum.request({
+            method: "wallet_addEthereumChain",
+            params: [
+              {
+                chainId: "0xaa36a7",
+                chainName: NETWORK_NAME,
+                nativeCurrency: { name: "Ether", symbol: "ETH", decimals: 18 },
+                rpcUrls: [RPC_URL],
+                blockExplorerUrls: ["https://sepolia.etherscan.io"],
+              },
+            ],
+          });
+          return true;
+        } catch (addErr) {
+          setError((addErr && addErr.message) || "Failed to add Sepolia network.");
+          return false;
+        }
+      }
+      if (err && err.code === 4001) {
+        setError("Network switch request was rejected.");
+        return false;
+      }
+      setError((err && err.message) || "Failed to switch to Sepolia.");
+      return false;
+    }
+  }, [NETWORK_NAME, RPC_URL, setError]);
+
   const signer = useMemo(() => {
     if (!account || !provider?.getSigner) return null;
     return provider.getSigner(account);
@@ -124,12 +168,16 @@ export function Web3Provider({ children }) {
       error,
       connect,
       disconnect,
+      switchToSepolia,
       isConnecting,
       hasWallet: typeof window !== "undefined" && Boolean(window.ethereum),
       isConnected: Boolean(account),
       networkLabel: chainLabel(chainId ?? CHAIN_ID),
+      expectedChainId: CHAIN_ID,
+      isWrongNetwork: Boolean(account) && Number(chainId) !== Number(CHAIN_ID),
+      onExpectedChain: !account || Number(chainId) === Number(CHAIN_ID),
     }),
-    [account, balance, chainId, provider, signer, error, connect, disconnect, isConnecting]
+    [account, balance, chainId, provider, signer, error, connect, disconnect, switchToSepolia, isConnecting]
   );
 
   return <Web3Context.Provider value={value}>{children}</Web3Context.Provider>;

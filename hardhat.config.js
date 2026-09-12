@@ -1,5 +1,9 @@
 require("@nomiclabs/hardhat-waffle");
 require("@nomiclabs/hardhat-ethers");
+require("dotenv").config();
+
+const SEPOLIA_RPC_URL = process.env.SEPOLIA_RPC_URL || "https://ethereum-sepolia.publicnode.com";
+const PRIVATE_KEY = process.env.PRIVATE_KEY || "";
 
 module.exports = {
   solidity: {
@@ -22,8 +26,9 @@ module.exports = {
       chainId: 31337
     },
     sepolia: {
-      url: process.env.SEPOLIA_RPC_URL || "https://ethereum-sepolia.publicnode.com",
-      accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : []
+      url: SEPOLIA_RPC_URL,
+      accounts: PRIVATE_KEY ? [PRIVATE_KEY] : [],
+      chainId: 11155111
     }
   }
 };

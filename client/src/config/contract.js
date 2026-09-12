@@ -1,17 +1,14 @@
 import { ethers } from "ethers";
 import { abi } from "./abi";
 
-export const CONTRACT_ADDRESS =
-  import.meta.env.VITE_CONTRACT_ADDRESS ||
-  "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0";
+export const CONTRACT_ADDRESS = (import.meta.env.VITE_CONTRACT_ADDRESS || "").trim();
 
-export const CHAIN_ID = Number(import.meta.env.VITE_CHAIN_ID || 31337);
+export const CHAIN_ID = Number(import.meta.env.VITE_CHAIN_ID || 11155111);
 
 export const RPC_URL =
-  import.meta.env.VITE_RPC_URL || "http://localhost:8545";
+  import.meta.env.VITE_RPC_URL || "https://ethereum-sepolia-rpc.publicnode.com";
 
-export const NETWORK_NAME =
-  import.meta.env.VITE_NETWORK_NAME || "Local Hardhat";
+export const NETWORK_NAME = import.meta.env.VITE_NETWORK_NAME || "Sepolia";
 
 export const EXPLORER_URL =
   import.meta.env.VITE_EXPLORER_URL || "https://sepolia.etherscan.io";
@@ -23,6 +20,8 @@ export const KNOWN_CHAINS = {
 
 export const IPFS_GATEWAY = "https://ipfs.io/ipfs";
 
+export const hasContractConfig = Boolean(CONTRACT_ADDRESS);
+
 export const getFallbackProvider = () =>
   new ethers.providers.JsonRpcProvider(RPC_URL);
 
@@ -33,10 +32,18 @@ export const getWalletProvider = () => {
   return null;
 };
 
-export const getContractRead = (provider) =>
-  new ethers.Contract(CONTRACT_ADDRESS, abi, provider);
+export const getContractRead = (provider) => {
+  if (!CONTRACT_ADDRESS) {
+    throw new Error("Contract not configured. Set VITE_CONTRACT_ADDRESS.");
+  }
+  return new ethers.Contract(CONTRACT_ADDRESS, abi, provider);
+};
 
-export const getContractWrite = (signer) =>
-  new ethers.Contract(CONTRACT_ADDRESS, abi, signer);
+export const getContractWrite = (signer) => {
+  if (!CONTRACT_ADDRESS) {
+    throw new Error("Contract not configured. Set VITE_CONTRACT_ADDRESS.");
+  }
+  return new ethers.Contract(CONTRACT_ADDRESS, abi, signer);
+};
 
 export const chainLabel = (id) => KNOWN_CHAINS[id] || `Chain ${id}`;
